@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { NYTArticle } from "../../api/nytApi";
 import "../../styles/news.scss";
-import fallbackImage from "../../assets/images/News.png";
+import fallbackImage from "../../assets/images/news.png";
 
 const NewsCard = ({ article }: { article: NYTArticle }) => {
   const image = article.multimedia?.[0]?.url;
