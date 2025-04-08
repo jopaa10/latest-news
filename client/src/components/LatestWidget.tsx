@@ -24,7 +24,7 @@ const LatestNewsWidget = () => {
       return lastPage.nextOffset ?? undefined;
     },
     initialPageParam: 0,
-    refetchInterval: 10000,
+    refetchInterval: 60000,
   });
 
   const scrollRef = useRef<HTMLDivElement>(null);
