@@ -1,0 +1,39 @@
+@use "./variables" as *;
+@use "./mixins" as *;
+
+.mobile-menu {
+  display: none;
+
+  @include respond(sm-phone) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    list-style: none;
+    padding: 0;
+    gap: 3.3rem;
+    padding-bottom: 1.6rem;
+  }
+
+  &__item {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 2rem;
+    letter-spacing: -0.02px;
+
+    padding: 1rem 1.6rem;
+    border-radius: 2rem;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+
+    &.active {
+      background-color: rgba(187, 30, 30, 0.1);
+      color: #bb1e1e;
+      font-weight: 600;
+    }
+
+    &:not(.active) {
+      color: #1d1d1b; // dark text
+    }
+  }
+}

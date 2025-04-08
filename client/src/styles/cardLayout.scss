@@ -1,0 +1,11 @@
+main {
+  max-width: 1095px;
+  width: 100%;
+  margin: 0 auto;
+
+  .main-container {
+    display: flex;
+    gap: 25px;
+    margin: 0 1.6rem 6rem 1.6rem;
+  }
+}

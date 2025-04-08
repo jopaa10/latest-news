@@ -1,0 +1,63 @@
+@use "./variables" as *;
+@use "./mixins" as *;
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  @include respond(sm-phone) {
+    align-items: center;
+  }
+
+  .mobile-view {
+    display: none;
+
+    @include respond(sm-phone) {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .desktop-view {
+    @include respond(sm-phone) {
+      display: none;
+    }
+  }
+
+  &__title {
+    text-transform: capitalize;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: -0.15px;
+    margin-top: 10px;
+
+    @include respond(sm-phone) {
+      display: none;
+    }
+  }
+
+  .top-section {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+
+    @include respond(sm-phone) {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+
+  .bottom-section {
+    margin-top: 22px;
+
+    @include respond(sm-phone) {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+}
