@@ -5,9 +5,7 @@
   display: none;
 
   @include respond(sm-phone) {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include flexCenter;
     width: 100%;
     list-style: none;
     padding: 0;
@@ -27,13 +25,13 @@
     transition: background 0.3s, color 0.3s;
 
     &.active {
-      background-color: rgba(187, 30, 30, 0.1);
-      color: #bb1e1e;
+      background-color: #bb1e1e1a;
+      color: $text-color-red;
       font-weight: 600;
     }
 
     &:not(.active) {
-      color: #1d1d1b; // dark text
+      color: $text-color-black-lighter;
     }
   }
 }

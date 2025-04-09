@@ -26,8 +26,7 @@
   }
 
   .search-container {
-    display: flex;
-    align-items: center;
+    @include flexCenter;
     justify-content: space-between;
     background: #fff;
     border-radius: 10px;
@@ -50,7 +49,7 @@
         width: 100%;
 
         &::placeholder {
-          color: #a5a5a4;
+          color: $text-color-black-lighter;
           font-weight: 400;
           font-size: 15px;
           line-height: 16px;
@@ -62,7 +61,7 @@
     button {
       border: none;
       background: #bb1e1e;
-      color: white;
+      color: $text-color-white;
       padding: 5px 10px;
       border-radius: 6px;
       cursor: pointer;
@@ -94,11 +93,11 @@
   }
 
   .black {
-    color: #000;
+    color: $text-color-black;
   }
 
   .red {
-    color: #bb1e1e;
+    color: $text-color-red;
   }
 }
 
@@ -190,7 +189,6 @@
     }
 
     &__nav {
-      display: none;
       position: fixed;
       top: 0;
       left: 0;
@@ -226,10 +224,10 @@
       li {
         width: 95px;
         height: 95px;
-        display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
+
+        @include flexCenter;
+
         font-weight: 600;
         font-size: 14px;
         line-height: 19.7px;
@@ -239,10 +237,9 @@
         a {
           width: 100%;
           height: 100%;
-          display: flex;
+
+          @include flexCenter;
           flex-direction: column;
-          align-items: center;
-          justify-content: center;
 
           text-decoration: none;
           color: #8d8d8c;
@@ -254,7 +251,7 @@
           &.active {
             background: white;
             box-shadow: 0px 6px 36px 0px #00000029;
-            color: #bb1e1e;
+            color: $text-color-red;
           }
         }
       }

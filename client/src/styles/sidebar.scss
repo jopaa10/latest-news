@@ -15,10 +15,9 @@
   }
 
   ul {
-    list-style: none;
     display: flex;
     flex-direction: column;
-    padding: 0;
+
     align-items: center;
     gap: 5px;
 
@@ -27,21 +26,18 @@
       height: 63px;
       border-radius: 5px;
       overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      @include flexCenter;
 
       a {
         width: 100%;
         height: 100%;
-        display: flex;
+        @include flexCenter;
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
+
         padding: 12px;
         cursor: pointer;
         transition: background 0.3s;
-        color: #1d1d1b;
+        color: $text-color-black-lighter;
         text-decoration: none;
         border-radius: 5px;
         opacity: 0.5;
@@ -50,12 +46,12 @@
         &:active,
         &.active {
           background: #fff;
-          color: rgba(187, 30, 30, 1);
+          color: $text-color-red;
           opacity: 1;
         }
 
         .sidebar-icon:hover {
-          color: rgba(187, 30, 30, 1);
+          color: $text-color-red;
           opacity: 1;
         }
       }

@@ -2,6 +2,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { fetchLatestArticles } from "../api/nytApi";
 import NewsCard from "../components/news/NewsCard";
 import { useEffect, useRef } from "react";
+import NewsCardSkeleton from "../components/news/NewsCardSkeleton";
 
 const LatestNews = () => {
   const {
@@ -48,12 +49,20 @@ const LatestNews = () => {
     <div className="all-latest-news" ref={containerRef}>
       <h2>All Latest News</h2>
 
-      {isLoading && <p>Loading...</p>}
+      {isLoading && (
+        <ul className="article-list news-skeleton">
+          {[...Array(6)].map((index) => (
+            <li key={index} className="article-list__item">
+              <NewsCardSkeleton key={index} />
+            </li>
+          ))}
+        </ul>
+      )}
       {isError && <p>Error loading news.</p>}
 
       <ul className="article-list">
         {allArticles.map((article, index) => (
-          <li className="article-list__item">
+          <li key={index} className="article-list__item">
             <NewsCard key={index} article={article} />
           </li>
         ))}

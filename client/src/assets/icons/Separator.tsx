@@ -11,7 +11,7 @@ function Separator({ size }: { size: number | string }) {
         opacity="0.1"
         d="M0.5 0.5H1094.5"
         stroke="#979797"
-        stroke-linecap="square"
+        strokeLinecap="square"
       />
     </svg>
   );

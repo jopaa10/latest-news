@@ -3,6 +3,7 @@ import NewsCard from "./NewsCard";
 import { fetchArticlesByCategory, NYTArticle } from "../../api/nytApi";
 import { useQuery } from "@tanstack/react-query";
 import { useSearch } from "../../context/SearchContext";
+import NewsCardSkeleton from "./NewsCardSkeleton";
 
 const NewsList = ({
   range = "bottom",
@@ -21,7 +22,7 @@ const NewsList = ({
     isError,
   } = useQuery({
     queryKey: ["articles"],
-    queryFn: () => fetchArticlesByCategory("world"),
+    queryFn: () => fetchArticlesByCategory("home"),
   });
 
   useEffect(() => {
@@ -41,7 +42,13 @@ const NewsList = ({
   );
 
   if (isLoading) {
-    return <p>Loading latest news...</p>;
+    return (
+      <div className={`news-grid news-skeleton columns-${columnCount}`}>
+        {[...Array(isMobile ? 3 : 6)].map((_, index) => (
+          <NewsCardSkeleton key={index} />
+        ))}
+      </div>
+    );
   }
 
   if (isError) {

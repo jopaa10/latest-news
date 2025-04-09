@@ -1,27 +1,10 @@
 import { useEffect, useState } from "react";
 import SearchBar from "../SearchBar";
-import {
-  Briefcase,
-  Description,
-  HealthAndSafety,
-  Home,
-  Science,
-  SportsSoccer,
-  Tv,
-} from "../../assets/icons";
+
 import { NavLink } from "react-router-dom";
+import { categories } from "../../utils/categoryData";
 
 const MobileNavbar = () => {
-  const categories = [
-    { name: "Home", icon: <Home />, path: "/" },
-    { name: "General", icon: <Description />, path: "/general" },
-    { name: "Business", icon: <Briefcase />, path: "/business" },
-    { name: "Health", icon: <HealthAndSafety />, path: "/health" },
-    { name: "Science", icon: <Science />, path: "/science" },
-    { name: "Sports", icon: <SportsSoccer />, path: "/sports" },
-    { name: "Technology", icon: <Tv />, path: "/technology" },
-  ];
-
   const [isChecked, setIsChecked] = useState(false);
   const [startedScrolling, setStartedScrolling] = useState(false);
 

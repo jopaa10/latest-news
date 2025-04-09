@@ -3,9 +3,7 @@
 
 .hero-wrapper {
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flexCenter;
   background-image: url("../assets/images/heroBg.png");
   background-repeat: no-repeat;
   background-size: cover;
@@ -16,13 +14,11 @@
 }
 
 .hero {
-  display: flex;
-  align-items: center;
+  @include flexCenter;
   justify-content: space-between;
-  color: white;
+  color: $text-color-white;
   width: 100%;
   max-width: 1095px;
-  height: 6rem;
 
   @include respond(tablet) {
     padding: 0 1rem;
@@ -53,9 +49,9 @@
   .button-container {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 1.2rem;
     width: 100%;
-    max-width: 145px;
+    max-width: 14.5rem;
 
     p {
       font-weight: 400;
@@ -72,7 +68,7 @@
       line-height: 20px;
       letter-spacing: 0px;
       text-align: center;
-      background: rgba(255, 255, 255, 1);
+      background: #ffffff;
       border-radius: 8px;
       border: none;
       max-width: 69px;

@@ -4,12 +4,11 @@ import { fetchArticlesByCategory, NYTArticle } from "../api/nytApi";
 import NewsCard from "../components/news/NewsCard";
 import "../styles/categoryPage.scss";
 import { useSearch } from "../context/SearchContext";
+import NewsCardSkeleton from "../components/news/NewsCardSkeleton";
 
 const CategoryPage = () => {
   const { category = "world" } = useParams();
   const { debounced } = useSearch();
-
-  console.log(category);
 
   const {
     data: articles = [],
@@ -17,7 +16,10 @@ const CategoryPage = () => {
     isError,
   } = useQuery<NYTArticle[]>({
     queryKey: ["articles", category],
-    queryFn: () => fetchArticlesByCategory(category),
+    queryFn: () =>
+      fetchArticlesByCategory(
+        category.toLowerCase() === "general" ? "home" : category
+      ),
     staleTime: 1000 * 60 * 5,
   });
 
@@ -25,7 +27,20 @@ const CategoryPage = () => {
     article.title.toLowerCase().includes(debounced.toLowerCase())
   );
 
-  if (isLoading) return <p>Loading {category} news...</p>;
+  if (isLoading) {
+    return (
+      <div className="news-container news-skeleton">
+        <h2>{category} news</h2>
+        <ul className="article-list">
+          {[...Array(6)].map((_, index) => (
+            <li key={index} className="article-list__item">
+              <NewsCardSkeleton />
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
   if (isError) return <p>Something went wrong while fetching articles 😢</p>;
 
   return (

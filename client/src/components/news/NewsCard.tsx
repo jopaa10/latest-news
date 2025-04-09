@@ -4,14 +4,14 @@ import "../../styles/news.scss";
 import fallbackImage from "../../assets/images/news.png";
 
 const NewsCard = ({ article }: { article: NYTArticle }) => {
-  const image = article.multimedia?.[0]?.url;
+  const image = article.multimedia?.[1]?.url;
   const author = article.byline.replace(/^By\s+/i, "");
 
   const navigate = useNavigate();
 
   const handleClick = () => {
     const encodedUrl = encodeURIComponent(article.url);
-    const category = article.section || "general";
+    const category = article.section || "home";
 
     navigate(`/${category}/article/${encodedUrl}`);
   };

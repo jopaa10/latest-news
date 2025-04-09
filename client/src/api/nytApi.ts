@@ -41,15 +41,23 @@ export const fetchArticlesByCategory = async (
     );
     const data = await response.json();
 
-    if (data.results) {
-      return data.results.sort(
-        (a: NYTArticle, b: NYTArticle) =>
-          new Date(b.published_date).getTime() -
-          new Date(a.published_date).getTime()
-      );
+    if (!data.results) return [];
+
+    const sorted = data.results.sort(
+      (a: NYTArticle, b: NYTArticle) =>
+        new Date(b.published_date).getTime() -
+        new Date(a.published_date).getTime()
+    );
+
+    if (category.toLowerCase() === "home") {
+      return sorted;
     }
 
-    return [];
+    return data.results.filter(
+      (article: NYTArticle) =>
+        (article.section.toLowerCase() || data.section.toLowerCase()) ===
+        category.toLowerCase()
+    );
   } catch (error) {
     console.error("Error fetching NYT articles:", error);
     return [];

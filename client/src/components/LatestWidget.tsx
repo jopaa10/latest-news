@@ -4,6 +4,7 @@ import { ArrowRight } from "../assets/icons";
 import { fetchLatestArticles, NYTArticle } from "../api/nytApi";
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import LatestNewsSkeleton from "./news/LatestNewsSkeleton";
 
 const LIMIT = 10;
 
@@ -61,7 +62,13 @@ const LatestNewsWidget = () => {
       </div>
 
       <div className="news-scroll" ref={scrollRef}>
-        {isLoading && <p>Loading latest news...</p>}
+        {isLoading && (
+          <div className="news-skeleton">
+            {[...Array(LIMIT)].map((_, index) => (
+              <LatestNewsSkeleton key={index} />
+            ))}
+          </div>
+        )}
         {isError && <p>Error loading latest news.</p>}
 
         {data?.pages.map((page) => (
