@@ -17,6 +17,7 @@ const LatestNews = () => {
     queryFn: ({ pageParam = 0 }) => fetchLatestArticles({ pageParam }),
     getNextPageParam: (lastPage) => lastPage.nextOffset ?? undefined,
     initialPageParam: 0,
+    refetchInterval: 600000,
   });
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -31,7 +32,7 @@ const LatestNews = () => {
       const fullHeight = document.documentElement.scrollHeight;
 
       if (
-        scrollTop + windowHeight >= fullHeight - 200 && // near bottom
+        scrollTop + windowHeight >= fullHeight - 200 &&
         hasNextPage &&
         !isFetchingNextPage
       ) {

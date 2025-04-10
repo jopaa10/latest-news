@@ -12,10 +12,7 @@ function App() {
         <Route path="/" element={<CardLayout />}>
           <Route index element={<Home />} />
           <Route path="/:category" element={<CategoryPage />} />
-          <Route
-            path=":category/article/:encodedUrl"
-            element={<NewsDetail />}
-          />
+          <Route path="/:category/article/:slug" element={<NewsDetail />} />
           <Route path="/see-all-news" element={<LatestNews />} />
         </Route>
       </Routes>

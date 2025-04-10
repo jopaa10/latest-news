@@ -5,7 +5,7 @@ import Separator from "../assets/icons/Separator";
 import "../styles/cardLayout.scss";
 import { useState } from "react";
 import { SearchContext } from "../context/SearchContext";
-import Hero from "./Hero";
+import Hero from "./common/Hero";
 import MobileNavbar from "./mobile/MobileNavbar";
 
 const CardLayout = () => {

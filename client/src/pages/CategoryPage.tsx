@@ -16,10 +16,7 @@ const CategoryPage = () => {
     isError,
   } = useQuery<NYTArticle[]>({
     queryKey: ["articles", category],
-    queryFn: () =>
-      fetchArticlesByCategory(
-        category.toLowerCase() === "general" ? "home" : category
-      ),
+    queryFn: () => fetchArticlesByCategory(category),
     staleTime: 1000 * 60 * 5,
   });
 

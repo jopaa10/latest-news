@@ -32,9 +32,43 @@ export interface NYTArticle {
 const API_BASE_URL = "https://api.nytimes.com/svc";
 const API_KEY = import.meta.env.VITE_NYT_API_KEY;
 
+const SECTIONS = [
+  "home",
+  "world",
+  "politics",
+  "business",
+  "technology",
+  "sports",
+  "science",
+  "health",
+  "arts",
+  "fashion",
+  "food",
+  "travel",
+  "magazine",
+  "opinion",
+  "realestate",
+  "automobiles",
+  "books",
+  "theater",
+  "movies",
+  "sundayreview",
+  "nytstore",
+  "t-magazine",
+  "wedding",
+  "parenting",
+];
+
 export const fetchArticlesByCategory = async (
   category: string
 ): Promise<NYTArticle[]> => {
+  if (!SECTIONS.includes(category.toLowerCase())) {
+    console.warn(
+      `${category} is not a valid category. Falling back to "home".`
+    );
+    category = "home";
+  }
+
   try {
     const response = await fetch(
       `${API_BASE_URL}/topstories/v2/${category}.json?api-key=${API_KEY}`
@@ -55,8 +89,7 @@ export const fetchArticlesByCategory = async (
 
     return data.results.filter(
       (article: NYTArticle) =>
-        (article.section.toLowerCase() || data.section.toLowerCase()) ===
-        category.toLowerCase()
+        article.section.toLowerCase() === category.toLowerCase()
     );
   } catch (error) {
     console.error("Error fetching NYT articles:", error);

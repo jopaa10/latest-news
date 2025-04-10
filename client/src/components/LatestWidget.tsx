@@ -5,6 +5,7 @@ import { fetchLatestArticles, NYTArticle } from "../api/nytApi";
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import LatestNewsSkeleton from "./news/LatestNewsSkeleton";
+import { slugify } from "../utils/createSlug";
 
 const LIMIT = 10;
 
@@ -76,7 +77,18 @@ const LatestNewsWidget = () => {
             {page.results
               .slice(0, LIMIT)
               .map((item: NYTArticle, index: number) => (
-                <div key={index} className="news-item">
+                <div
+                  key={index}
+                  className="news-item"
+                  role="button"
+                  onClick={() =>
+                    navigate(
+                      `/${item.section.toLowerCase()}/article/${slugify(
+                        item.title
+                      )}`
+                    )
+                  }
+                >
                   <span className="time">
                     {new Date(item.published_date).toLocaleTimeString([], {
                       hour: "2-digit",

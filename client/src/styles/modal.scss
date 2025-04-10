@@ -1,0 +1,113 @@
+@use "./variables" as *;
+@use "./mixins" as *;
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  @include flexCenter;
+  z-index: 9999;
+
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.modal__form {
+  background-color: $background-color;
+  width: 420px;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+  margin: 1rem;
+
+  h2 {
+    text-align: center;
+    font-size: 1.75rem;
+    color: $text-color-red;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    text-align: center;
+    font-size: 1.25rem;
+    color: $text-color-black-lighter;
+    opacity: 0.5;
+    margin-bottom: 0.5rem;
+  }
+
+  &__fields {
+    padding: 2.5rem;
+    @include flexCenter;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 1rem;
+
+    .input-container {
+      display: flex;
+      flex-direction: column;
+      max-width: 25rem;
+      width: 100%;
+
+      label {
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-left: 1rem;
+        margin-bottom: 0.5rem;
+        color: $text-color-black-lighter;
+        opacity: 0.5;
+        text-transform: capitalize;
+      }
+
+      input {
+        padding: 0.75rem 1rem;
+        border: 2px solid #bb1e1e;
+        border-radius: 999px;
+        outline: none;
+        font-size: 1rem;
+        background-color: white;
+        transition: border-color 0.3s;
+
+        &:focus {
+          border-color: darken(#bb1e1e, 10%);
+        }
+      }
+    }
+
+    button {
+      padding: 0.75rem 1rem;
+      background-color: #bb1e1e;
+      color: $text-color-white;
+      border: none;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 20px;
+      max-width: 15rem;
+      width: 100%;
+      transition: all 0.3s ease-in-out;
+      cursor: pointer;
+
+      &:hover {
+        background-color: darken(#bb1e1e, 10%);
+        transform: scale(1.05);
+      }
+    }
+
+    .switch-mode {
+      font-size: 0.9rem;
+
+      p {
+        text-align: center;
+      }
+
+      .link-btn {
+        background: none;
+        border: none;
+        color: $text-color-red;
+        font-weight: 600;
+      }
+    }
+  }
+}

@@ -1,39 +1,62 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { fetchArticlesByCategory, NYTArticle } from "../../api/nytApi";
+import { slugify } from "../../utils/createSlug";
 
 const NewsDetail = () => {
-  const { category, encodedUrl } = useParams();
-  const articleUrl = decodeURIComponent(encodedUrl || "");
+  const { category, slug } = useParams();
 
   const {
     data: articles,
     isLoading,
     error,
   } = useQuery<NYTArticle[]>({
-    queryKey: ["articles", category],
+    queryKey: ["articles"],
     queryFn: () => fetchArticlesByCategory(category || "home"),
     enabled: !!category,
   });
 
-  const article = articles?.find((a) => a.url === articleUrl);
+  const article = articles?.find(
+    (articleItem) => slugify(articleItem.title) === slug
+  );
 
-  if (isLoading) return <div>Loading article...</div>;
-  if (error || !article) return <div>Article not found.</div>;
+  if (isLoading) {
+    return (
+      <div className="news-detail">
+        <div className="skeleton-title skeleton"></div>
+        <div className="skeleton-image skeleton"></div>
+        <div className="skeleton-paragraph skeleton"></div>
+      </div>
+    );
+  }
 
-  const image = article.multimedia?.[0]?.url;
+  if (error) {
+    return (
+      <div className="news-detail">
+        <h2>Article not found.</h2>
+      </div>
+    );
+  }
+
+  const image = article?.multimedia?.[0]?.url;
 
   return (
     <div className="news-detail">
-      <h1>{article.title}</h1>
-      {image && (
-        <img
-          src={image}
-          alt={article.title}
-          style={{ width: "100%", maxHeight: 400, objectFit: "cover" }}
-        />
+      {article ? (
+        <>
+          <h1>{article.title}</h1>
+          {image && (
+            <img
+              src={image}
+              alt={article.multimedia[0]?.caption}
+              style={{ width: "100%", maxHeight: 400, objectFit: "cover" }}
+            />
+          )}
+          <p>{article.abstract}</p>
+        </>
+      ) : (
+        <p>Article not found.</p> // Or any other fallback you want
       )}
-      <p>{article.abstract}</p>
     </div>
   );
 };
