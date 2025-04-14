@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Bookmark {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  articleId String // Can be a hash of the article URL or the URL itself
+  article   Json
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([userId, articleId])
+}
+
+model User {
+  id                 Int                 @id @default(autoincrement())
+  name               String?
+  surname            String?
+  email              String              @unique
+  password           String
+  createdAt          DateTime            @default(now())
+  verified           Boolean             @default(false)
+  bookmarks          Bookmark[]
+  verificationTokens VerificationToken[]
+}
+
+model VerificationToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  verified  Boolean  @default(false)
+}
