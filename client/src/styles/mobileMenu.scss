@@ -25,7 +25,7 @@
     transition: background 0.3s, color 0.3s;
 
     &.active {
-      background-color: #bb1e1e1a;
+      background-color: rgba(187, 30, 30, 0.1);
       color: $text-color-red;
       font-weight: 600;
     }

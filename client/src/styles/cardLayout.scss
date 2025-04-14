@@ -1,11 +1,13 @@
 main {
-  max-width: 1095px;
   width: 100%;
-  margin: 0 auto;
+  margin-bottom: 6rem;
 
   .main-container {
     display: flex;
     gap: 25px;
-    margin: 0 1.6rem 6rem 1.6rem;
+
+    max-width: 1095px;
+    width: 100%;
+    margin: 0 auto;
   }
 }

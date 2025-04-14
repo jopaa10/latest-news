@@ -23,6 +23,11 @@
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
   margin: 1rem;
 
+  @include respond(sm-phone) {
+    max-height: fit-content;
+    overflow: scroll;
+  }
+
   h2 {
     text-align: center;
     font-size: 1.75rem;
@@ -34,22 +39,22 @@
     text-align: center;
     font-size: 1.25rem;
     color: $text-color-black-lighter;
-    opacity: 0.5;
     margin-bottom: 0.5rem;
   }
 
   &__fields {
-    padding: 2.5rem;
+    padding: 1.5rem;
     @include flexCenter;
     flex-direction: column;
-    gap: 1.5rem;
-    margin: 1rem;
+    gap: 1rem;
+    margin: 0.5rem;
 
     .input-container {
       display: flex;
       flex-direction: column;
       max-width: 25rem;
       width: 100%;
+      position: relative;
 
       label {
         font-size: 0.9rem;
@@ -67,11 +72,48 @@
         border-radius: 999px;
         outline: none;
         font-size: 1rem;
-        background-color: white;
+        background-color: $background-color-white;
         transition: border-color 0.3s;
 
         &:focus {
           border-color: darken(#bb1e1e, 10%);
+        }
+      }
+
+      .password {
+        position: absolute;
+        right: 1.5rem;
+        top: 70%;
+        transform: translateY(-50%);
+        background: none;
+        color: $text-color-black-lighter;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        width: fit-content;
+        max-width: none;
+      }
+    }
+
+    .password-checklist {
+      margin: 0;
+      flex-wrap: wrap;
+      display: flex;
+      justify-content: center;
+      max-width: 25rem;
+
+      @include respond(sm-phone) {
+        max-width: 23rem;
+      }
+
+      li {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        width: 48%;
+
+        @include respond(sm-phone) {
+          width: 55%;
         }
       }
     }

@@ -1,11 +1,12 @@
-import "../styles/latestNews.scss";
+import "../../styles/latestNews.scss";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { ArrowRight } from "../assets/icons";
-import { fetchLatestArticles, NYTArticle } from "../api/nytApi";
+import { ArrowRight } from "../../assets/icons";
+import { fetchLatestArticles } from "../../api/nytApi";
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import LatestNewsSkeleton from "./news/LatestNewsSkeleton";
-import { slugify } from "../utils/createSlug";
+import LatestNewsSkeleton from "./LatestNewsSkeleton";
+import { slugify } from "../../utils/createSlug";
+import { NYTArticle } from "../../types";
 
 const LIMIT = 10;
 
@@ -35,7 +36,7 @@ const LatestNewsWidget = () => {
     const scrollContainer = scrollRef.current;
     if (!scrollContainer) return;
 
-    const handleScroll = () => {
+    const handleScroll = async () => {
       const { scrollTop, scrollHeight, clientHeight } = scrollContainer;
 
       const bottomOffset = 100;
@@ -56,13 +57,18 @@ const LatestNewsWidget = () => {
   }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   return (
-    <aside className="latest-news-widget">
+    <div className="latest-news-widget">
       <div className="widget-header">
         <span className="dot"></span>
-        <h4>Latest news</h4>
+        <h2>Latest news</h2>
       </div>
 
-      <div className="news-scroll" ref={scrollRef}>
+      <div
+        className="news-scroll"
+        role="region"
+        aria-label="Latest news articles"
+        ref={scrollRef}
+      >
         {isLoading && (
           <div className="news-skeleton">
             {[...Array(LIMIT)].map((_, index) => (
@@ -77,10 +83,9 @@ const LatestNewsWidget = () => {
             {page.results
               .slice(0, LIMIT)
               .map((item: NYTArticle, index: number) => (
-                <div
+                <button
                   key={index}
                   className="news-item"
-                  role="button"
                   onClick={() =>
                     navigate(
                       `/${item.section.toLowerCase()}/article/${slugify(
@@ -96,7 +101,7 @@ const LatestNewsWidget = () => {
                     })}
                   </span>
                   <p className="title">{item.title}</p>
-                </div>
+                </button>
               ))}
           </>
         ))}
@@ -114,7 +119,7 @@ const LatestNewsWidget = () => {
           <ArrowRight />
         </span>
       </a>
-    </aside>
+    </div>
   );
 };
 

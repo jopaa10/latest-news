@@ -18,6 +18,7 @@ const LatestNews = () => {
     getNextPageParam: (lastPage) => lastPage.nextOffset ?? undefined,
     initialPageParam: 0,
     refetchInterval: 600000,
+    staleTime: 60 * 1000,
   });
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -64,7 +65,7 @@ const LatestNews = () => {
       <ul className="article-list">
         {allArticles.map((article, index) => (
           <li key={index} className="article-list__item">
-            <NewsCard key={index} article={article} />
+            <NewsCard key={index} article={article} isLatest={true} />
           </li>
         ))}
       </ul>

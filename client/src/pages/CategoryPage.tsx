@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import { fetchArticlesByCategory, NYTArticle } from "../api/nytApi";
+import { fetchArticlesByCategory } from "../api/nytApi";
 import NewsCard from "../components/news/NewsCard";
 import "../styles/categoryPage.scss";
 import { useSearch } from "../context/SearchContext";
 import NewsCardSkeleton from "../components/news/NewsCardSkeleton";
+import { NYTArticle } from "../types";
 
 const CategoryPage = () => {
   const { category = "world" } = useParams();

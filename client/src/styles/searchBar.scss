@@ -2,11 +2,11 @@
 @use "./mixins" as *;
 
 .search-bar {
-  display: flex;
-  align-items: center;
+  @include flexCenter;
   padding: 3.5rem 1.6rem 2.8rem 1.6rem;
   flex-wrap: wrap;
   gap: 1rem;
+  position: relative;
 
   @include respond(tablet) {
     justify-content: center;
@@ -28,7 +28,7 @@
   .search-container {
     @include flexCenter;
     justify-content: space-between;
-    background: #fff;
+    background: $background-color-white;
     border-radius: 10px;
     padding: 5px;
     max-width: 725px;
@@ -39,6 +39,7 @@
       display: flex;
       align-items: center;
       width: 100%;
+      height: 100%;
       padding: 0 15px;
 
       input {
@@ -47,6 +48,7 @@
         padding: 0 0.8rem;
         outline: none;
         width: 100%;
+        height: inherit;
 
         &::placeholder {
           color: $text-color-black-lighter;
@@ -55,6 +57,14 @@
           font-size: 15px;
           line-height: 16px;
           letter-spacing: -0.2px;
+        }
+      }
+
+      .clear-search {
+        background: none;
+        border: none;
+        span {
+          color: $text-color-black;
         }
       }
     }
@@ -77,14 +87,23 @@
 }
 
 .logo {
-  font-weight: 900;
-  font-size: 32px;
-  line-height: 100%;
-  letter-spacing: 0px;
   margin-right: 4.3rem;
   background: none;
   border: none;
   cursor: pointer;
+  display: flex;
+
+  h1 {
+    font-weight: 900;
+    font-size: 32px;
+    line-height: 100%;
+    letter-spacing: 0px;
+    margin: 0;
+  }
+
+  @media (max-width: 300px) {
+    font-size: 28px;
+  }
 
   &--checked {
     margin: 4rem;
@@ -122,7 +141,7 @@
       height: 5rem;
       top: 1rem;
       right: 0.75rem;
-      background: #f1f1f1;
+      background: $background-color;
       z-index: 1000;
       border-radius: 50%;
       transition: transform 0.8s;
@@ -236,26 +255,56 @@
         text-align: center;
 
         a {
-          width: 100%;
-          height: 100%;
-
           @include flexCenter;
           flex-direction: column;
-
+          width: 100%;
+          height: 100%;
+          border: none;
+          border-radius: 5px;
           text-decoration: none;
           color: #8d8d8c;
-
-          border-radius: 5px;
 
           &:hover,
           &:active,
           &.active {
-            background: white;
+            background: $background-color-white;
             box-shadow: 0px 6px 36px 0px #00000029;
             color: $text-color-red;
           }
         }
       }
+    }
+  }
+}
+
+.login-container {
+  display: none;
+
+  @include respond(sm-phone) {
+    display: flex;
+    font-size: 14px;
+    position: absolute;
+    top: 3rem;
+    right: 5rem;
+    align-items: center;
+    text-align: center;
+    z-index: 1000;
+
+    &--logged {
+      @media (max-width: 350px) {
+        max-width: 10rem;
+        top: 2.5rem;
+        font-size: 13px;
+      }
+    }
+  }
+
+  button {
+    border: none;
+    background: none;
+
+    span {
+      display: flex;
     }
   }
 }

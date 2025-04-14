@@ -1,5 +1,7 @@
 @use "./mixins" as *;
 @use "./variables" as *;
+@use "./animations" as *;
+@use "./utils" as *;
 
 @font-face {
   font-family: "InterVariable";
@@ -51,4 +53,22 @@ p {
 
 button {
   cursor: pointer;
+}
+
+a[href],
+area,
+button:enabled,
+input:not([type="hidden"]):enabled,
+link[href],
+object,
+select:enabled,
+textarea:enabled,
+[tabindex]:not([tabindex="-1"]),
+[draggable] {
+  &:focus {
+    outline: none;
+  }
+  &:focus-visible {
+    outline: $outline-color solid 2px; // Show outline only when navigating with keyboard (tab)
+  }
 }

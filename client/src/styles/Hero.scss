@@ -47,11 +47,11 @@
   }
 
   .button-container {
-    display: flex;
-    align-items: center;
+    @include flexCenter;
+    justify-content: flex-end;
     gap: 1.2rem;
     width: 100%;
-    max-width: 19.5rem;
+    max-width: 25rem;
 
     p {
       font-weight: 400;
@@ -61,6 +61,33 @@
       text-align: center;
     }
 
+    .logout-container {
+      @include flexCenter;
+
+      p {
+        font-size: 13px;
+      }
+    }
+
+    :is(.login, .logout) {
+      background: none;
+      width: fit-content;
+      color: $text-color-white;
+      width: fit-content;
+      height: auto;
+      text-transform: capitalize;
+      transition: all 0.3s ease-in-out;
+
+      span {
+        display: flex;
+      }
+
+      &:hover {
+        background: none;
+        transform: scale(1.05);
+      }
+    }
+
     button {
       text-transform: uppercase;
       font-weight: 400;
@@ -68,7 +95,7 @@
       line-height: 20px;
       letter-spacing: 0px;
       text-align: center;
-      background: #ffffff;
+      background: $background-color-white;
       border-radius: 8px;
       border: none;
       max-width: 69px;

@@ -1,20 +1,15 @@
 import { useEffect, useState } from "react";
 import NewsCard from "./NewsCard";
-import { fetchArticlesByCategory, NYTArticle } from "../../api/nytApi";
+import { fetchArticlesByCategory } from "../../api/nytApi";
 import { useQuery } from "@tanstack/react-query";
-import { useSearch } from "../../context/SearchContext";
 import NewsCardSkeleton from "./NewsCardSkeleton";
+import { NYTArticle } from "../../types";
+import { useIsMobile } from "../../hooks/useIsMobile";
 
-const NewsList = ({
-  range = "bottom",
-  isMobile = false,
-}: {
-  range?: string;
-  isMobile?: boolean;
-}) => {
+const NewsList = ({ range = "bottom" }: { range?: string }) => {
   const [articles, setArticles] = useState<NYTArticle[]>([]);
   const columnCount = range === "top" ? 2 : 3;
-  const { debounced } = useSearch();
+  const isMobile = useIsMobile();
 
   const {
     data: allArticles,
@@ -37,9 +32,16 @@ const NewsList = ({
     }
   }, [allArticles, range, isMobile]);
 
-  const filtered = articles?.filter((article) =>
-    article.title.toLowerCase().includes(debounced.toLowerCase())
-  );
+  // const filtered = articles?.filter((article) =>
+  //   article.title.toLowerCase().includes(debounced.toLowerCase())
+  // );
+
+  // const filtered =
+  //   isSearching && debounced
+  //     ? articles?.filter((article) =>
+  //         article.title.toLowerCase().includes(debounced.toLowerCase())
+  //       )
+  //     : articles;
 
   if (isLoading) {
     return (
@@ -57,7 +59,7 @@ const NewsList = ({
 
   return (
     <div className={`news-grid columns-${columnCount}`}>
-      {filtered.map((article, index) => (
+      {articles.map((article, index) => (
         <NewsCard key={index} article={article} />
       ))}
     </div>
