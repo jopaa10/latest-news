@@ -22,7 +22,7 @@ const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
       bm.uri === article.uri
   );
 
-  const image = article.multimedia?.[2]?.url || article?.multimedia?.[0]?.url;
+  const image = article.multimedia?.[1]?.url || article?.multimedia?.[0]?.url;
   const altText =
     article?.multimedia?.[1]?.caption || "No image available for this article";
   const author = article?.byline?.replace(/^By\s+/i, "") || "";
