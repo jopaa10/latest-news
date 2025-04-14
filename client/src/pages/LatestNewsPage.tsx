@@ -65,7 +65,7 @@ const LatestNews = () => {
       <ul className="article-list">
         {allArticles.map((article, index) => (
           <li key={index} className="article-list__item">
-            <NewsCard key={index} article={article} isLatest={true} />
+            <NewsCard key={index} article={article} />
           </li>
         ))}
       </ul>
