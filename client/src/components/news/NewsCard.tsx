@@ -87,7 +87,7 @@ const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
 
       setTimeout(() => {
         setShowToast(false);
-      }, duration * 1000);
+      }, duration * 500);
     } catch (err) {
       console.log(err);
       setToastMessage("Something went wrong");
@@ -95,8 +95,20 @@ const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
 
       setTimeout(() => {
         setShowToast(false);
-      }, 2000);
+      }, 1000);
     }
+  };
+
+  const handleBookmarkToggleWithAnimation = (
+    e: React.MouseEvent | React.KeyboardEvent
+  ) => {
+    e.stopPropagation();
+    const button = e.currentTarget;
+    button.classList.add("clicked");
+    setTimeout(() => {
+      button.classList.remove("clicked");
+    }, 500); // match animation duration
+    handleBookmarkToggle(e);
   };
 
   return (
@@ -136,11 +148,11 @@ const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
                   className="bookmark-btn"
                   aria-label={isBookmarked ? "Remove bookmark" : "Add bookmark"}
                   aria-pressed={isBookmarked}
-                  onClick={(e) => handleBookmarkToggle(e)}
+                  onClick={handleBookmarkToggleWithAnimation}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" || e.key === " ") {
                       e.preventDefault();
-                      handleBookmarkToggle(e);
+                      handleBookmarkToggleWithAnimation(e);
                     }
                   }}
                 >

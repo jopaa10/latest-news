@@ -111,21 +111,23 @@
         right: 0;
         z-index: 99;
         padding: 0.75rem;
-        //transition: all 0.3s ease-in-out;
+
         @include flexCenter;
+
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+        &.clicked {
+          animation: pop 0.3s ease;
+        }
 
         svg {
           pointer-events: none;
         }
-
-        // &:hover {
-        //   transform: scale(1.05);
-        // }
       }
 
       .category {
         @include categoryTitle;
-        color: rgba(30, 113, 187, 1);
+        color: $text-color-blue;
 
         margin: 0;
       }
@@ -219,7 +221,7 @@
   gap: 1rem;
 
   .skeleton {
-    background-color: #e2e2e2;
+    background-color: #e0e0e0;
     border-radius: 8px;
     animation: pulseNewsDetails 1.5s infinite ease-in-out;
   }

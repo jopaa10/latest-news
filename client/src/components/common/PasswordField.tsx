@@ -13,8 +13,15 @@ export default function PasswordField({
   passwordRules,
 }: PasswordFieldProps) {
   const [showPassword, setShowPassword] = useState(false);
+  const [hasStartedTyping, setHasStartedTyping] = useState(false);
 
   const handleChange = (val: string) => {
+    if (val.length === 0) {
+      setHasStartedTyping(false);
+    } else if (!hasStartedTyping) {
+      setHasStartedTyping(true);
+    }
+
     onChange(val);
     setPasswordRules({
       length: val.length >= 8,
@@ -48,7 +55,7 @@ export default function PasswordField({
         </button>
       </div>
 
-      {showChecklist && (
+      {showChecklist && hasStartedTyping && (
         <ul className="password-checklist" aria-live="polite" role="list">
           <li className={passwordRules.length ? "valid" : ""}>
             {passwordRules.length ? (
