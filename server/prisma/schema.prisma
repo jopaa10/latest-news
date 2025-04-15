@@ -11,8 +11,8 @@ datasource db {
 model Bookmark {
   id        Int      @id @default(autoincrement())
   userId    Int
-  articleId String 
-   title     String
+  articleId String
+  title     String
   author    String?
   image     String?
   section   String?
