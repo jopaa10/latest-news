@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "../../styles/hero.scss";
-import Modal from "../Modal";
+import Modal from "../modal/LoginModal";
 import { useAuth } from "../../context/AuthContext";
 import { Logout, User } from "../../assets/icons";
 

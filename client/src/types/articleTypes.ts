@@ -1,4 +1,8 @@
-import { ReactNode } from "react";
+export type NYTArticleWithId = NYTArticle & {
+  articleId?: string;
+  image?: string;
+  author?: string;
+};
 
 export type NewsArticle = {
   abstract: string;
@@ -74,62 +78,4 @@ export type NYTArticle = {
     copyright: string;
   }[];
   short_url: string;
-};
-
-export type AuthContextType = {
-  token: string | null;
-  isLoggedIn: boolean;
-  username: string;
-  setToken: (token: string | null) => void;
-  handleLogout: () => void;
-};
-
-export type AuthProviderProps = {
-  children: ReactNode;
-};
-
-export type ModalProps = {
-  closeModal: () => void;
-};
-
-export type InputFieldProps = {
-  id: string;
-  label: string;
-  type?: string;
-  name: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  required?: boolean;
-};
-
-export type PasswordRules = {
-  length: boolean;
-  upper: boolean;
-  lower: boolean;
-  special: boolean;
-};
-
-export type PasswordFieldProps = {
-  id: string;
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  showChecklist?: boolean;
-  setPasswordRules: React.Dispatch<React.SetStateAction<PasswordRules>>;
-  required?: boolean;
-  passwordRules: PasswordRules;
-};
-
-export type NYTArticleWithId = NYTArticle & {
-  articleId?: string;
-  image?: string;
-  author?: string;
-};
-
-export type SimplifiedBookmark = {
-  articleId: string;
-  title: string;
-  author: string | null;
-  image: string | null;
-  section: string | null;
 };

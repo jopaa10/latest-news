@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import { categories } from "../../utils/categoryData";
 import { Bookmarks, Logout, User } from "../../assets/icons";
 import { useAuth } from "../../context/AuthContext";
-import Modal from "../Modal";
+import Modal from "../modal/LoginModal";
 
 const MobileNavbar = () => {
   const [isChecked, setIsChecked] = useState(false);

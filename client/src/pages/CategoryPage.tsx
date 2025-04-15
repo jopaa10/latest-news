@@ -5,7 +5,7 @@ import NewsCard from "../components/news/NewsCard";
 import "../styles/categoryPage.scss";
 import { useSearch } from "../context/SearchContext";
 import NewsCardSkeleton from "../components/news/NewsCardSkeleton";
-import { NYTArticle } from "../types";
+import { NYTArticle } from "../types/articleTypes";
 
 const CategoryPage = () => {
   const { category = "world" } = useParams();

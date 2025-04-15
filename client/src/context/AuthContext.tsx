@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { fetchCurrentUser } from "../api/auth";
 import Toast from "../components/common/Toast";
 import { useNavigate } from "react-router-dom";
-import { AuthContextType, AuthProviderProps } from "../types";
+import { AuthContextType, AuthProviderProps } from "../types/authTypes";
 
 const IDLE_TIMEOUT = 60 * 60 * 1000;
 const COUNTDOWN_DURATION = 10;

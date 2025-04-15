@@ -6,7 +6,7 @@ import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import LatestNewsSkeleton from "./LatestNewsSkeleton";
 import { slugify } from "../../utils/createSlug";
-import { NYTArticle } from "../../types";
+import { NYTArticle } from "../../types/articleTypes";
 
 const LIMIT = 10;
 

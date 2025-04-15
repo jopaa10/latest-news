@@ -1,4 +1,3 @@
-// hooks/useBookmarks.ts
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "../context/AuthContext";
 import { getBookmarks } from "../api/bookmarks";

@@ -1,12 +1,13 @@
-import { useEffect } from "react";
 import SearchIcon from "../assets/icons/SearchIcon";
 import { useSearch } from "../context/SearchContext";
 import "./../styles/searchBar.scss";
 import Logo from "./common/Logo";
 import { Close } from "../assets/icons";
+import { useNavigate } from "react-router-dom";
 
 function SearchBar({ isChecked = false }: { isChecked?: boolean }) {
   const { searchTerm, setSearchTerm, handleSearchClick } = useSearch();
+  const navigate = useNavigate();
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -22,13 +23,8 @@ function SearchBar({ isChecked = false }: { isChecked?: boolean }) {
   const handleClearSearch = () => {
     setSearchTerm("");
     handleSearchClick();
+    navigate("/");
   };
-
-  useEffect(() => {
-    if (searchTerm.trim() === "") {
-      handleSearchClick();
-    }
-  }, [searchTerm, handleSearchClick]);
 
   return (
     <>

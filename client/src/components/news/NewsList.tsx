@@ -3,7 +3,7 @@ import NewsCard from "./NewsCard";
 import { fetchArticlesByCategory } from "../../api/nytApi";
 import { useQuery } from "@tanstack/react-query";
 import NewsCardSkeleton from "./NewsCardSkeleton";
-import { NYTArticle } from "../../types";
+import { NYTArticle } from "../../types/articleTypes";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import LatestNewsWidget from "./LatestNewsWidget";
 

@@ -1,4 +1,5 @@
-import { NYTArticle, SimplifiedBookmark } from "../types";
+import { NYTArticle } from "../types/articleTypes";
+import { SimplifiedBookmark } from "../types/bookmarkTypes";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 

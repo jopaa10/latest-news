@@ -1,8 +1,8 @@
+import "../../styles/sidebar.scss";
 import { NavLink } from "react-router-dom";
-import "../styles/sidebar.scss";
-import { categories } from "../utils/categoryData";
-import { Bookmarks } from "../assets/icons";
-import { useAuth } from "../context/AuthContext";
+import { categories } from "../../utils/categoryData";
+import { Bookmarks } from "../../assets/icons";
+import { useAuth } from "../../context/AuthContext";
 import { useEffect, useState } from "react";
 
 const Sidebar = () => {

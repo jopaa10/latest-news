@@ -7,9 +7,10 @@ import { Bookmark, BookmarkBorder } from "../../assets/icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addBookmark, removeBookmark } from "../../api/bookmarks";
 import { useBookmarks } from "../../hooks/useBookmarks";
-import { NYTArticleWithId, SimplifiedBookmark } from "../../types";
+import { SimplifiedBookmark } from "../../types/bookmarkTypes";
 import { useState } from "react";
 import Toast from "../common/Toast";
+import { NYTArticleWithId } from "../../types/articleTypes";
 
 const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
   const { isLoggedIn, token } = useAuth();
@@ -86,7 +87,7 @@ const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
 
       setTimeout(() => {
         setShowToast(false);
-      }, duration * 1000); // Using local `duration`, not state
+      }, duration * 1000);
     } catch (err) {
       console.log(err);
       setToastMessage("Something went wrong");

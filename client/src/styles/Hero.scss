@@ -11,101 +11,101 @@
   @include respond(sm-phone) {
     display: none;
   }
-}
 
-.hero {
-  @include flexCenter;
-  justify-content: space-between;
-  color: $text-color-white;
-  width: 100%;
-  max-width: 1095px;
-
-  @include respond(tablet) {
-    padding: 0 1rem;
-  }
-
-  &__text {
-    display: flex;
-    align-items: center;
-    gap: 4.6rem;
-    width: 100%;
-    height: 100%;
-
-    h3 {
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 21px;
-      letter-spacing: -0.14px;
-    }
-
-    p {
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 21px;
-      letter-spacing: -0.12px;
-    }
-  }
-
-  .button-container {
+  .hero {
     @include flexCenter;
-    justify-content: flex-end;
-    gap: 1.2rem;
+    justify-content: space-between;
+    color: $text-color-white;
     width: 100%;
-    max-width: 25rem;
+    max-width: 1095px;
 
-    p {
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 20px;
-      letter-spacing: 0px;
-      text-align: center;
+    @include respond(tablet) {
+      padding: 0 1rem;
     }
 
-    .logout-container {
-      @include flexCenter;
+    &__text {
+      display: flex;
+      align-items: center;
+      gap: 4.6rem;
+      width: 100%;
+      height: 100%;
+
+      h3 {
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 21px;
+        letter-spacing: -0.14px;
+      }
 
       p {
-        font-size: 13px;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 21px;
+        letter-spacing: -0.12px;
       }
     }
 
-    :is(.login, .logout) {
-      background: none;
-      width: fit-content;
-      color: $text-color-white;
-      width: fit-content;
-      height: auto;
-      text-transform: capitalize;
-      transition: all 0.3s ease-in-out;
-
-      span {
-        display: flex;
-      }
-
-      &:hover {
-        background: none;
-        transform: scale(1.05);
-      }
-    }
-
-    button {
-      text-transform: uppercase;
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 20px;
-      letter-spacing: 0px;
-      text-align: center;
-      background: $background-color-white;
-      border-radius: 8px;
-      border: none;
-      max-width: 69px;
-      height: 40px;
+    .button-container {
+      @include flexCenter;
+      justify-content: flex-end;
+      gap: 1.2rem;
       width: 100%;
+      max-width: 25rem;
 
-      transition: all 0.2s ease-in-out;
+      p {
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+        letter-spacing: 0px;
+        text-align: center;
+      }
 
-      &:hover {
-        background: #f0f0f0;
+      .logout-container {
+        @include flexCenter;
+
+        p {
+          font-size: 13px;
+        }
+      }
+
+      :is(.login, .logout) {
+        background: none;
+        width: fit-content;
+        color: $text-color-white;
+        width: fit-content;
+        height: auto;
+        text-transform: capitalize;
+        transition: all 0.3s ease-in-out;
+
+        span {
+          display: flex;
+        }
+
+        &:hover {
+          background: none;
+          transform: scale(1.05);
+        }
+      }
+
+      button {
+        text-transform: uppercase;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+        letter-spacing: 0px;
+        text-align: center;
+        background: $background-color-white;
+        border-radius: 8px;
+        border: none;
+        max-width: 69px;
+        height: 40px;
+        width: 100%;
+
+        transition: all 0.2s ease-in-out;
+
+        &:hover {
+          background: #f0f0f0;
+        }
       }
     }
   }

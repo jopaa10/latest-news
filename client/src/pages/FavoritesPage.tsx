@@ -1,7 +1,7 @@
 import NewsCard from "../components/news/NewsCard";
 import { useBookmarks } from "../hooks/useBookmarks";
 import NewsCardSkeleton from "../components/news/NewsCardSkeleton";
-import { NYTArticleWithId } from "../types";
+import { NYTArticleWithId } from "../types/articleTypes";
 
 const FavoritesPage = () => {
   const { data: bookmarks, isLoading, isError } = useBookmarks();

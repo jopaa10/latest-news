@@ -1,13 +1,18 @@
+@use "./mixins" as *;
+
 main {
   width: 100%;
   margin-bottom: 6rem;
 
   .main-container {
     display: flex;
-    gap: 25px;
-
+    gap: 2.5rem;
     max-width: 1095px;
     width: 100%;
     margin: 0 auto;
+
+    @include respond(tablet) {
+      gap: 1rem;
+    }
   }
 }

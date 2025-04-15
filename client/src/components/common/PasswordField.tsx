@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Eye, EyeOff, Check, Close } from "../../assets/icons";
-import { PasswordFieldProps } from "../../types";
+import { PasswordFieldProps } from "../../types/LoginTypes";
 
 export default function PasswordField({
   id,

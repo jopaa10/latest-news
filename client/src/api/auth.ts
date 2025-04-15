@@ -1,9 +1,4 @@
-interface AuthBody {
-  name?: string;
-  surname?: string;
-  email: string;
-  password: string;
-}
+import { AuthBody } from "../types/authTypes";
 
 export const register = async (body: AuthBody) => {
   try {
