@@ -16,7 +16,7 @@ router.get(
       const bookmarks = await prisma.bookmark.findMany({
         where: { userId: userId },
       });
-      res.json(bookmarks.map((bm) => bm.article));
+      res.json(bookmarks);
     } catch (err) {
       res.status(500).json({ error: "Failed to fetch bookmarks" });
     }
@@ -46,7 +46,13 @@ router.post(
         data: {
           userId: userId,
           articleId: article.uri,
-          article: article,
+          title: article.title,
+          author: article.byline?.replace(/^By\s+/i, "") || null,
+          image:
+            article.multimedia?.[2]?.url ||
+            article.multimedia?.[0]?.url ||
+            null,
+          section: article.section || null,
         },
       });
 

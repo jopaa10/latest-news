@@ -11,13 +11,16 @@ datasource db {
 model Bookmark {
   id        Int      @id @default(autoincrement())
   userId    Int
-  articleId String // Can be a hash of the article URL or the URL itself
-  article   Json
+  articleId String 
+   title     String
+  author    String?
+  image     String?
+  section   String?
   createdAt DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id])
 
-  @@unique([userId, articleId])
+  @@unique([userId, articleId]) //no duplicate bookmars per user
 }
 
 model User {
