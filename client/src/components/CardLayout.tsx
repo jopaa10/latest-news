@@ -18,11 +18,6 @@ const CardLayout = () => {
   const handleSearchClick = () => {
     const trimmed = searchTerm.trim();
     setDebounced(trimmed);
-    // const handler = setTimeout(() => {
-    //   setDebounced(searchTerm);
-    // }, 300);
-
-    // return () => clearTimeout(handler);
   };
 
   useEffect(() => {

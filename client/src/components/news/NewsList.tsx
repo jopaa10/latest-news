@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import NewsCardSkeleton from "./NewsCardSkeleton";
 import { NYTArticle } from "../../types";
 import { useIsMobile } from "../../hooks/useIsMobile";
+import LatestNewsWidget from "./LatestNewsWidget";
 
 const NewsList = ({ range = "bottom" }: { range?: string }) => {
   const [articles, setArticles] = useState<NYTArticle[]>([]);
@@ -32,20 +33,9 @@ const NewsList = ({ range = "bottom" }: { range?: string }) => {
     }
   }, [allArticles, range, isMobile]);
 
-  // const filtered = articles?.filter((article) =>
-  //   article.title.toLowerCase().includes(debounced.toLowerCase())
-  // );
-
-  // const filtered =
-  //   isSearching && debounced
-  //     ? articles?.filter((article) =>
-  //         article.title.toLowerCase().includes(debounced.toLowerCase())
-  //       )
-  //     : articles;
-
   if (isLoading) {
     return (
-      <div className={`news-grid news-skeleton columns-${columnCount}`}>
+      <div className={`news-flex news-skeleton columns-${columnCount}`}>
         {[...Array(isMobile ? 3 : 6)].map((_, index) => (
           <NewsCardSkeleton key={index} />
         ))}
@@ -58,11 +48,25 @@ const NewsList = ({ range = "bottom" }: { range?: string }) => {
   }
 
   return (
-    <div className={`news-grid columns-${columnCount}`}>
-      {articles.map((article, index) => (
-        <NewsCard key={index} article={article} />
-      ))}
-    </div>
+    <>
+      {!isMobile && range === "top" && (
+        <div className="top-flex-wrapper">
+          <ul className="top-news-cards article-list">
+            {articles.map((article, index) => (
+              <NewsCard key={index} article={article} />
+            ))}
+          </ul>
+
+          <LatestNewsWidget />
+        </div>
+      )}
+
+      <ul className="news-flex article-list">
+        {articles.slice(range === "top" ? 4 : 0).map((article) => (
+          <NewsCard article={article} />
+        ))}
+      </ul>
+    </>
   );
 };
 

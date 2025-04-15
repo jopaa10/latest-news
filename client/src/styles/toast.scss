@@ -17,6 +17,7 @@
   &.visible {
     opacity: 1;
     overflow: hidden;
+    z-index: 9999;
   }
 
   span {

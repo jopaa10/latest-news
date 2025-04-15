@@ -49,9 +49,7 @@ const CategoryPage = () => {
       ) : (
         <ul className="article-list">
           {filtered.map((article, index) => (
-            <li key={index} className="article-list__item">
-              <NewsCard key={index} article={article} />
-            </li>
+            <NewsCard key={index} article={article} />
           ))}
         </ul>
       )}

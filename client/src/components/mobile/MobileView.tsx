@@ -67,7 +67,7 @@ const MobileView = ({ activeTab }: { activeTab: string }) => {
       content = <p>Error: {(error as Error).message}</p>;
     } else if (articles && articles.length > 0) {
       content = (
-        <div className="news-grid">
+        <div className="news-flex">
           {transformedArticles.map((article) => (
             <NewsCard article={article} />
           ))}

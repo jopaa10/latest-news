@@ -2,23 +2,50 @@
 @use "./mixins" as *;
 @use "./animations" as *;
 
-.news-grid {
-  display: grid;
-  gap: 20px;
-  list-style: none;
+.top-flex-wrapper {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2.2rem;
+
+  .top-news-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    flex: 2;
+
+    li {
+      flex: 1 1 calc(50% - 14px);
+      max-width: calc(50% - 14px);
+    }
+  }
 
   @include respond(sm-phone) {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+    flex-direction: column;
+
+    .top-news-cards {
+      li {
+        flex: 1 1 100%;
+        max-width: 100%;
+      }
+    }
+  }
+}
+
+.news-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+
+  li {
+    flex: 1 1 calc(33.333% - 14px);
+    max-width: calc(33.333% - 14px);
   }
 
-  &.columns-2 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  &.columns-3 {
-    grid-template-columns: repeat(3, 1fr);
+  @include respond(sm-phone) {
+    li {
+      flex: 1 1 100%;
+      max-width: 100%;
+    }
   }
 
   &__title {
@@ -82,6 +109,12 @@
         position: absolute;
         top: -0.1rem;
         right: 0;
+        z-index: 99;
+        transition: all 0.3s ease-in-out;
+
+        &:hover {
+          transform: scale(1.05);
+        }
       }
 
       .category {

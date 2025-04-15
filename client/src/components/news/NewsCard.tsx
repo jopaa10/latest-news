@@ -26,8 +26,6 @@ const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
     Array.isArray(bookmarks) &&
     bookmarks?.some((bm: SimplifiedBookmark) => bm.articleId === articleId);
 
-  console.log(isBookmarked);
-
   const image =
     article.multimedia?.[1]?.url ||
     article?.multimedia?.[0]?.url ||
@@ -82,7 +80,7 @@ const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
       }
 
       setShowToast(true);
-      setTimeout(() => setShowToast(false), toastDuration * 1000);
+      setTimeout(() => setShowToast(false), toastDuration * 3000);
     } catch (err) {
       console.log(err);
 
@@ -95,61 +93,63 @@ const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
 
   return (
     <>
-      <div
-        role="button"
-        tabIndex={0}
-        className="news-card"
-        onClick={handleClick}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            handleClick();
-          }
-        }}
-      >
-        <img src={image || fallbackImage} alt={altText} />
-        <div className="news-content">
-          <div className="heading">
-            <p
-              className="category"
-              aria-label={`Article category: ${article.section}`}
-            >
-              {article.section}
-            </p>
-            <h2 aria-label={`Article title: ${article.title}`}>
-              {article.title}
-            </h2>
-            {isLoggedIn && (
-              <button
-                className="bookmark-btn"
-                aria-label={isBookmarked ? "Remove bookmark" : "Add bookmark"}
-                aria-pressed={isBookmarked}
-                onClick={handleBookmarkToggle}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    handleBookmarkToggle(e);
-                  }
-                }}
-              >
-                {isBookmarked ? (
-                  <Bookmark size={16} />
-                ) : (
-                  <BookmarkBorder size={16} />
-                )}
-              </button>
-            )}
-          </div>
-          <p className="author" aria-label={`Author ${author}`}>
-            {author}
-          </p>
-        </div>
-      </div>
       <Toast
         showToast={showToast}
         message={toastMessage}
-        logoutCountdownDuration={toastDuration / 5}
+        logoutCountdownDuration={toastDuration}
       />
+      <li key={article.articleId} className="article-list__item">
+        <div
+          role="button"
+          tabIndex={0}
+          className="news-card"
+          onClick={handleClick}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              handleClick();
+            }
+          }}
+        >
+          <img src={image || fallbackImage} alt={altText} />
+          <div className="news-content">
+            <div className="heading">
+              <p
+                className="category"
+                aria-label={`Article category: ${article.section}`}
+              >
+                {article.section}
+              </p>
+              <h2 aria-label={`Article title: ${article.title}`}>
+                {article.title}
+              </h2>
+              {isLoggedIn && (
+                <button
+                  className="bookmark-btn"
+                  aria-label={isBookmarked ? "Remove bookmark" : "Add bookmark"}
+                  aria-pressed={isBookmarked}
+                  onClick={handleBookmarkToggle}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      handleBookmarkToggle(e);
+                    }
+                  }}
+                >
+                  {isBookmarked ? (
+                    <Bookmark size={16} />
+                  ) : (
+                    <BookmarkBorder size={16} />
+                  )}
+                </button>
+              )}
+            </div>
+            <p className="author" aria-label={`Author ${author}`}>
+              {author}
+            </p>
+          </div>
+        </div>
+      </li>
     </>
   );
 };

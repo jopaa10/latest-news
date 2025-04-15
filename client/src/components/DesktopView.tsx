@@ -1,5 +1,4 @@
 import { useSearch } from "../context/SearchContext";
-import LatestNewsWidget from "./news/LatestNewsWidget";
 import NewsCard from "./news/NewsCard";
 import NewsList from "./news/NewsList";
 import { useQuery } from "@tanstack/react-query";
@@ -87,13 +86,8 @@ const DesktopView = () => {
         </div>
       ) : (
         <div className="desktop-view">
-          <section className="top-section">
-            <NewsList range="top" />
-            <LatestNewsWidget />
-          </section>
-          <section className="bottom-section">
-            <NewsList range="bottom" />
-          </section>
+          <NewsList range="top" />
+          <NewsList range="bottom" />
         </div>
       )}
     </>
