@@ -12,7 +12,7 @@ model Bookmark {
   id        Int      @id @default(autoincrement())
   userId    Int
   articleId String
-  title     String
+  title     String?
   author    String?
   image     String?
   section   String?
