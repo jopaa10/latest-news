@@ -1,4 +1,4 @@
-import { NYTArticle, NYTArticleWithId } from "../types";
+import { NYTArticle, SimplifiedBookmark } from "../types";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -48,7 +48,9 @@ export const removeBookmark = async (
   return res.json();
 };
 
-export const getBookmarks = async (token: string | null) => {
+export const getBookmarks = async (
+  token: string | null
+): Promise<SimplifiedBookmark> => {
   const res = await fetch(`${API_BASE_URL}/bookmarks/get-bookmarks`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -59,12 +61,13 @@ export const getBookmarks = async (token: string | null) => {
     throw new Error("Failed to fetch bookmarks");
   }
 
-  // return res.json();
-
   const data = await res.json();
 
-  return data.map((item: NYTArticleWithId) => ({
-    ...item,
-    articleId: item.articleId || item.uri || item.url,
+  return data.map((item: SimplifiedBookmark) => ({
+    articleId: item.articleId,
+    title: item.title,
+    author: item.author,
+    image: item.image,
+    section: item.section,
   }));
 };

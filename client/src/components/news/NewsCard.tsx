@@ -7,22 +7,31 @@ import { Bookmark, BookmarkBorder } from "../../assets/icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addBookmark, removeBookmark } from "../../api/bookmarks";
 import { useBookmarks } from "../../hooks/useBookmarks";
-import { NYTArticleWithId } from "../../types";
+import { NYTArticleWithId, SimplifiedBookmark } from "../../types";
+import { useState } from "react";
+import Toast from "../common/Toast";
 
 const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
   const { isLoggedIn, token } = useAuth();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { data: bookmarks = [] } = useBookmarks();
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastDuration, setToastDuration] = useState(0);
 
-  const isBookmarked = bookmarks?.some(
-    (bm: NYTArticleWithId) =>
-      bm.articleId === article.articleId ||
-      bm.url === article.url ||
-      bm.uri === article.uri
-  );
+  const articleId = article.articleId || article.uri || article.url;
 
-  const image = article.multimedia?.[1]?.url || article?.multimedia?.[0]?.url;
+  const isBookmarked =
+    Array.isArray(bookmarks) &&
+    bookmarks?.some((bm: SimplifiedBookmark) => bm.articleId === articleId);
+
+  console.log(isBookmarked);
+
+  const image =
+    article.multimedia?.[1]?.url ||
+    article?.multimedia?.[0]?.url ||
+    article.image;
   const altText =
     article?.multimedia?.[1]?.caption || "No image available for this article";
   const author = article?.byline?.replace(/^By\s+/i, "") || "";
@@ -53,66 +62,95 @@ const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
     },
   });
 
-  const handleBookmarkToggle = (e: React.MouseEvent | React.KeyboardEvent) => {
+  const handleBookmarkToggle = async (
+    e: React.MouseEvent | React.KeyboardEvent
+  ) => {
     e.stopPropagation();
-    if (isBookmarked) {
-      removeBookmarkMutation.mutate();
-    } else {
-      addBookmarkMutation.mutate();
+    const start = Date.now();
+
+    try {
+      if (isBookmarked) {
+        await removeBookmarkMutation.mutateAsync();
+        const duration = (Date.now() - start) / 1000;
+        setToastMessage("Bookmark removed");
+        setToastDuration(duration);
+      } else {
+        await addBookmarkMutation.mutateAsync();
+        const duration = (Date.now() - start) / 1000;
+        setToastMessage("Bookmark added");
+        setToastDuration(duration);
+      }
+
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), toastDuration * 1000);
+    } catch (err) {
+      console.log(err);
+
+      setToastMessage("Something went wrong");
+      setToastDuration(2);
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 2000);
     }
   };
 
   return (
-    <div
-      role="button"
-      tabIndex={0}
-      className="news-card"
-      onClick={handleClick}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          handleClick();
-        }
-      }}
-    >
-      <img src={image || fallbackImage} alt={altText} />
-      <div className="news-content">
-        <div className="heading">
-          <p
-            className="category"
-            aria-label={`Article category: ${article.section}`}
-          >
-            {article.section}
-          </p>
-          <h2 aria-label={`Article title: ${article.title}`}>
-            {article.title}
-          </h2>
-          {isLoggedIn && (
-            <button
-              className="bookmark-btn"
-              aria-label={isBookmarked ? "Remove bookmark" : "Add bookmark"}
-              aria-pressed={isBookmarked}
-              onClick={handleBookmarkToggle}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  handleBookmarkToggle(e);
-                }
-              }}
+    <>
+      <div
+        role="button"
+        tabIndex={0}
+        className="news-card"
+        onClick={handleClick}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            handleClick();
+          }
+        }}
+      >
+        <img src={image || fallbackImage} alt={altText} />
+        <div className="news-content">
+          <div className="heading">
+            <p
+              className="category"
+              aria-label={`Article category: ${article.section}`}
             >
-              {isBookmarked ? (
-                <Bookmark size={16} />
-              ) : (
-                <BookmarkBorder size={16} />
-              )}
-            </button>
-          )}
+              {article.section}
+            </p>
+            <h2 aria-label={`Article title: ${article.title}`}>
+              {article.title}
+            </h2>
+            {isLoggedIn && (
+              <button
+                className="bookmark-btn"
+                aria-label={isBookmarked ? "Remove bookmark" : "Add bookmark"}
+                aria-pressed={isBookmarked}
+                onClick={handleBookmarkToggle}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    handleBookmarkToggle(e);
+                  }
+                }}
+              >
+                {isBookmarked ? (
+                  <Bookmark size={16} />
+                ) : (
+                  <BookmarkBorder size={16} />
+                )}
+              </button>
+            )}
+          </div>
+          <p className="author" aria-label={`Author ${author}`}>
+            {author}
+          </p>
         </div>
-        <p className="author" aria-label={`Author ${author}`}>
-          {author}
-        </p>
       </div>
-    </div>
+      <Toast
+        showToast={showToast}
+        message={toastMessage}
+        logoutCountdownDuration={toastDuration / 5}
+      />
+    </>
   );
 };
 

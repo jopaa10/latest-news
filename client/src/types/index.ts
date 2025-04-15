@@ -122,4 +122,13 @@ export type PasswordFieldProps = {
 
 export type NYTArticleWithId = NYTArticle & {
   articleId?: string;
+  image?: string;
+};
+
+export type SimplifiedBookmark = {
+  articleId: string;
+  title: string;
+  author: string | null;
+  image: string | null;
+  section: string | null;
 };
