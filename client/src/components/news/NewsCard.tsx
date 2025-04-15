@@ -34,7 +34,8 @@ const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
     article?.multimedia?.[1]?.caption || "No image available for this article";
   const author = article?.byline?.replace(/^By\s+/i, "") || "";
 
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent | React.KeyboardEvent) => {
+    e.stopPropagation();
     let category = article.section.toLowerCase();
 
     if (!category) {
@@ -80,7 +81,7 @@ const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
       }
 
       setShowToast(true);
-      setTimeout(() => setShowToast(false), toastDuration * 3000);
+      setTimeout(() => setShowToast(false), toastDuration * 2000);
     } catch (err) {
       console.log(err);
 
@@ -103,11 +104,11 @@ const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
           role="button"
           tabIndex={0}
           className="news-card"
-          onClick={handleClick}
+          onClick={(e) => handleClick(e)}
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {
               e.preventDefault();
-              handleClick();
+              handleClick(e);
             }
           }}
         >
@@ -128,7 +129,7 @@ const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
                   className="bookmark-btn"
                   aria-label={isBookmarked ? "Remove bookmark" : "Add bookmark"}
                   aria-pressed={isBookmarked}
-                  onClick={handleBookmarkToggle}
+                  onClick={(e) => handleBookmarkToggle(e)}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" || e.key === " ") {
                       e.preventDefault();
@@ -137,9 +138,9 @@ const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
                   }}
                 >
                   {isBookmarked ? (
-                    <Bookmark size={16} />
+                    <Bookmark size={22} />
                   ) : (
-                    <BookmarkBorder size={16} />
+                    <BookmarkBorder size={22} />
                   )}
                 </button>
               )}

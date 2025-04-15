@@ -107,14 +107,20 @@
         background: none;
         border: none;
         position: absolute;
-        top: -0.1rem;
+        top: -1.5rem;
         right: 0;
         z-index: 99;
-        transition: all 0.3s ease-in-out;
+        padding: 0.75rem;
+        //transition: all 0.3s ease-in-out;
+        @include flexCenter;
 
-        &:hover {
-          transform: scale(1.05);
+        svg {
+          pointer-events: none;
         }
+
+        // &:hover {
+        //   transform: scale(1.05);
+        // }
       }
 
       .category {
