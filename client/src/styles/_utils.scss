@@ -8,6 +8,11 @@
   margin: 0;
   cursor: pointer;
 
+  @include respond(sm-phone) {
+    gap: 2rem;
+    margin-top: 1rem;
+  }
+
   &__item {
     width: 320px;
     height: 252px;

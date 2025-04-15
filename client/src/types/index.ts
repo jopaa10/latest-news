@@ -123,6 +123,7 @@ export type PasswordFieldProps = {
 export type NYTArticleWithId = NYTArticle & {
   articleId?: string;
   image?: string;
+  author?: string;
 };
 
 export type SimplifiedBookmark = {

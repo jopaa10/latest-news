@@ -9,13 +9,13 @@ import LatestNewsWidget from "./LatestNewsWidget";
 
 const NewsList = ({ range = "bottom" }: { range?: string }) => {
   const [articles, setArticles] = useState<NYTArticle[]>([]);
-  const columnCount = range === "top" ? 2 : 3;
   const isMobile = useIsMobile();
 
   const {
     data: allArticles,
     isLoading,
     isError,
+    isFetching,
   } = useQuery({
     queryKey: ["articles"],
     queryFn: () => fetchArticlesByCategory("home"),
@@ -33,9 +33,9 @@ const NewsList = ({ range = "bottom" }: { range?: string }) => {
     }
   }, [allArticles, range, isMobile]);
 
-  if (isLoading) {
+  if (isLoading || isFetching) {
     return (
-      <div className={`news-flex news-skeleton columns-${columnCount}`}>
+      <div className={`news-flex news-skeleton`}>
         {[...Array(isMobile ? 3 : 6)].map((_, index) => (
           <NewsCardSkeleton key={index} />
         ))}
