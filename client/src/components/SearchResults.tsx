@@ -17,7 +17,7 @@ const SearchResults = () => {
   if (isLoading || isFetching) {
     return (
       <div className="news-container news-skeleton">
-        <h2>Your Bookmarked Articles</h2>
+        <h2>Search results for "{searchTerm}"</h2>
         <ul className="article-list">
           {[...Array(6)].map((_, index) => (
             <li key={index} className="article-list__item">
