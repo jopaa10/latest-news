@@ -61,6 +61,37 @@ const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
     },
   });
 
+  // const handleBookmarkToggle = async (
+  //   e: React.MouseEvent | React.KeyboardEvent
+  // ) => {
+  //   e.stopPropagation();
+  //   const start = Date.now();
+
+  //   try {
+  //     if (isBookmarked) {
+  //       await removeBookmarkMutation.mutateAsync();
+  //       const duration = (Date.now() - start) / 1000;
+  //       setToastMessage("Bookmark removed");
+  //       setToastDuration(duration);
+  //     } else {
+  //       await addBookmarkMutation.mutateAsync();
+  //       const duration = (Date.now() - start) / 1000;
+  //       setToastMessage("Bookmark added");
+  //       setToastDuration(duration);
+  //     }
+
+  //     setShowToast(true);
+  //     setTimeout(() => setShowToast(false), toastDuration * 2000);
+  //   } catch (err) {
+  //     console.log(err);
+
+  //     setToastMessage("Something went wrong");
+  //     setToastDuration(2);
+  //     setShowToast(true);
+  //     setTimeout(() => setShowToast(false), 2000);
+  //   }
+  // };
+
   const handleBookmarkToggle = async (
     e: React.MouseEvent | React.KeyboardEvent
   ) => {
@@ -68,27 +99,32 @@ const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
     const start = Date.now();
 
     try {
+      let message = "";
       if (isBookmarked) {
         await removeBookmarkMutation.mutateAsync();
-        const duration = (Date.now() - start) / 1000;
-        setToastMessage("Bookmark removed");
-        setToastDuration(duration);
+        message = "Bookmark removed";
       } else {
         await addBookmarkMutation.mutateAsync();
-        const duration = (Date.now() - start) / 1000;
-        setToastMessage("Bookmark added");
-        setToastDuration(duration);
+        message = "Bookmark added";
       }
 
+      const duration = (Date.now() - start) / 1000;
+
+      setToastMessage(message);
+      setToastDuration(duration);
       setShowToast(true);
-      setTimeout(() => setShowToast(false), toastDuration * 2000);
+
+      setTimeout(() => {
+        setShowToast(false);
+      }, duration * 2000); // Using local `duration`, not state
     } catch (err) {
       console.log(err);
-
       setToastMessage("Something went wrong");
-      setToastDuration(2);
       setShowToast(true);
-      setTimeout(() => setShowToast(false), 2000);
+
+      setTimeout(() => {
+        setShowToast(false);
+      }, 2000);
     }
   };
 
