@@ -47,7 +47,7 @@ router.post("/register", async (req: Request, res: Response): Promise<any> => {
       { id: newUser.id },
       process.env.JWT_SECRET as string,
       {
-        expiresIn: "1h",
+        expiresIn: "2h",
       }
     );
 
@@ -180,45 +180,53 @@ router.get(
         return res.status(400).json({ error: "Token has expired" });
       }
 
-      // Check if the token has expired
-      if (new Date() > verificationRecord.expiresAt) {
-        return res.status(400).json({ error: "Token has expired" });
-      }
+      // if (!verificationRecord.user.verified) {
+      //   // await prisma.user.update({
+      //   //   where: { id: verificationRecord.userId },
+      //   //   data: { verified: true },
+      //   // });
 
-      if (!verificationRecord.user.verified) {
-        await prisma.user.update({
-          where: { id: verificationRecord.userId },
-          data: { verified: true },
-        });
+      //   // await prisma.verificationToken.update({
+      //   //   where: { token: token as string },
+      //   //   data: { verified: true },
+      //   // });
 
-        await prisma.verificationToken.update({
-          where: { token: token as string },
-          data: { verified: true },
-        });
+      //   // return res
+      //   //   .status(200)
+      //   //   .json({ message: "Email successfully verified!" });
+      //   await prisma.user.update({
+      //     where: { id: verificationRecord.userId },
+      //     data: { verified: true },
+      //   });
+      // }
 
-        return res
-          .status(200)
-          .json({ message: "Email successfully verified!" });
-      }
+      await prisma.user.update({
+        where: { id: verificationRecord.userId },
+        data: { verified: true },
+      });
+
+      // Mark the token as used
+      await prisma.verificationToken.update({
+        where: { token: token as string },
+        data: { verified: true },
+      });
+
+      // Generate JWT token for the user after successful verification
+      const user = verificationRecord.user; // User data
+      const jwtToken = jwt.sign(
+        { id: user.id, name: user.name }, // Payload of the JWT token
+        process.env.JWT_SECRET as string, // Secret to sign the JWT
+        { expiresIn: "2h" } // Token expiration time
+      );
+
+      // Return the JWT token and success message
+      return res.status(200).json({
+        message: "Email successfully verified!",
+        token: jwtToken, // Send the generated JWT token
+      });
 
       // Fallback: user is verified but token was not marked
-      return res.status(200).json({ message: "Email already verified!" });
-
-      // Mark the user as verified
-      // await prisma.user.update({
-      //   where: { id: user.id },
-      //   data: { verified: true },
-      // });
-
-      // Delete the verification token (optional, you can keep it in case you want to track used tokens)
-      // await prisma.verificationToken.delete({
-      //   where: { token: token as string },
-      // });
-
-      // await prisma.verificationToken.update({
-      //   where: { token: token as string },
-      //   data: { verified: true },
-      // });
+      //  return res.status(200).json({ message: "Email already verified!" });
 
       // return res.status(200).json({ message: "Email verified successfully!" });
     } catch (err: any) {
