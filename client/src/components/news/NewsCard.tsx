@@ -1,5 +1,5 @@
-import { useNavigate } from "react-router-dom";
 import "../../styles/news.scss";
+import { useNavigate } from "react-router-dom";
 import fallbackImage from "../../assets/images/news.png";
 import { slugify } from "../../utils/createSlug";
 import { Bookmark, BookmarkBorder } from "../../assets/icons";
@@ -9,8 +9,8 @@ import { useBookmarks } from "../../hooks/useBookmarks";
 import { SimplifiedBookmark } from "../../types/bookmarkTypes";
 import { useState } from "react";
 import Toast from "../common/Toast";
-import { NYTArticleWithId } from "../../types/newsTypes";
 import { useAuth } from "../../hooks/useAuth";
+import { NYTArticleWithId } from "../../types/newsTypes";
 
 const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
   const { isLoggedIn, token } = useAuth();
@@ -31,6 +31,7 @@ const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
     article.multimedia?.[1]?.url ||
     article?.multimedia?.[0]?.url ||
     article.image;
+
   const altText =
     article?.multimedia?.[1]?.caption || "No image available for this article";
   const author =

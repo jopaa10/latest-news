@@ -11,6 +11,8 @@ const CategoryPage = () => {
   const { category = "world" } = useParams();
   const { debounced } = useSearch();
 
+  console.log(category);
+
   const {
     data: articles = [],
     isLoading,
@@ -30,7 +32,7 @@ const CategoryPage = () => {
     return (
       <div className="news-container news-skeleton">
         <Title text={`${category} news`} />
-        <NewsList articles={[]} isLoading={true} />
+        <NewsList articles={[]} isLoading={true} isFetching={true} />
       </div>
     );
   }

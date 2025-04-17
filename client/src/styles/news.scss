@@ -190,6 +190,7 @@
     .author {
       @include smallTitle;
       color: $text-secondary;
+      min-height: 1rem;
 
       margin: 0;
       text-overflow: ellipsis;
@@ -293,6 +294,11 @@
   gap: 1rem;
   margin: 0 1rem;
 
+  @include respond(sm-phone) {
+    justify-content: center;
+    width: 100%;
+  }
+
   h1 {
     margin-bottom: 0;
   }
@@ -304,5 +310,6 @@
     line-height: 20px;
     letter-spacing: -0.11px;
     text-align: justify;
+    padding-top: 2.4rem;
   }
 }

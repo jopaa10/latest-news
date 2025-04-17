@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { verifyEmail } from "../api/auth";
 import { Button } from "./common/Button";
 import "../styles/verifyEmail.scss";
+import { useAuth } from "../hooks/useAuth";
 
 const VerifyEmail = () => {
   const location = useLocation();
@@ -14,6 +15,7 @@ const VerifyEmail = () => {
   >("pending");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const hasVerified = useRef(false);
+  const { setToken } = useAuth();
 
   useEffect(() => {
     if (!token || hasVerified.current) return;
@@ -23,6 +25,8 @@ const VerifyEmail = () => {
     verifyEmail(token)
       .then((data) => {
         if (data?.message === "Email successfully verified!") {
+          localStorage.setItem("token", data.token);
+          setToken(data.token);
           setVerificationStatus("success");
           setTimeout(() => {
             navigate("/", { replace: true });

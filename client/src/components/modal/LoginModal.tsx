@@ -106,6 +106,18 @@ const Modal = ({ closeModal }: ModalProps) => {
           setError(
             "Verification email has been sent. Please check your inbox."
           );
+
+          setTimeout(() => {
+            setEmail("");
+            setPassword("");
+            setError(null);
+            setPasswordRules({
+              length: false,
+              upper: false,
+              lower: false,
+              special: false,
+            });
+          }, 5000);
         } else {
           setError(data.error || "Something went wrong");
         }
@@ -118,6 +130,13 @@ const Modal = ({ closeModal }: ModalProps) => {
       setLoading(false);
     }
   };
+
+  const handleOnChange =
+    (setter: React.Dispatch<React.SetStateAction<string>>) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setter(e.target.value); // updates state
+      setError(null); // clears the error
+    };
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -160,7 +179,7 @@ const Modal = ({ closeModal }: ModalProps) => {
                 label="Name"
                 name="name"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={handleOnChange(setName)}
               />
 
               <InputField
@@ -168,7 +187,7 @@ const Modal = ({ closeModal }: ModalProps) => {
                 label="Surname"
                 name="surname"
                 value={surname}
-                onChange={(e) => setSurname(e.target.value)}
+                onChange={handleOnChange(setSurname)}
               />
             </>
           )}
@@ -179,15 +198,18 @@ const Modal = ({ closeModal }: ModalProps) => {
             type="email"
             name="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleOnChange(setEmail)}
           />
 
           <PasswordField
             id="password"
             label="Password"
             value={password}
-            onChange={setPassword}
-            showChecklist={isRegister}
+            onChange={(val) => {
+              setPassword(val);
+              setError(null);
+            }}
+            showChecklist={isRegister && password.length > 0}
             setPasswordRules={setPasswordRules}
             passwordRules={passwordRules}
           />

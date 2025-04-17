@@ -61,13 +61,18 @@
 
     .news-item {
       border-bottom: 1px solid $gray-light;
-      padding: 1.3rem 2rem 1.4rem 0;
+      padding: 1.3rem 2rem 1rem 0;
       display: flex;
       flex-direction: column;
       border-top: none;
       border-inline: none;
       background: none;
       align-items: flex-start;
+      width: 100%;
+
+      &:first-child {
+        padding-top: 0;
+      }
 
       .time {
         font-size: 12px;
@@ -114,9 +119,10 @@
     align-items: center;
     font-size: 14px;
     color: $text-accent;
-    margin: 2rem 0 1rem 1rem;
+    margin: 1.5rem 0 1rem 1rem;
     background: none;
     cursor: pointer;
+    padding: 0;
 
     span {
       @include flexCenter;

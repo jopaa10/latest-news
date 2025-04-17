@@ -21,7 +21,6 @@ const SearchResults = () => {
       </div>
     );
   }
-  if (!articles?.length) return <p>No results found for "{searchTerm}"</p>;
 
   const transformedArticles = articles?.map(transformToNYTArticle) || [];
 
@@ -35,7 +34,7 @@ const SearchResults = () => {
         {isLoading || isFetching ? (
           <NewsList articles={[]} isLoading={true} isFetching={true} />
         ) : transformedArticles.length === 0 ? (
-          <p>No results found for "{searchTerm}".</p>
+          <p className="no-results">No results found for "{searchTerm}".</p>
         ) : (
           <NewsList articles={transformedArticles} />
         )}

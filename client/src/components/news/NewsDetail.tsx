@@ -3,12 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { searchArticleByTitle } from "../../api/nytApi";
 import { slugify } from "../../utils/createSlug";
 import { NewsArticle } from "../../types/newsTypes";
-import { useSearch } from "../../context/SearchContext";
-import { useEffect } from "react";
 
 const NewsDetail = () => {
   const { slug } = useParams();
-  const { setSearchTerm, searchTerm } = useSearch();
 
   const titleFromSlug = slug?.replace(/-/g, " ");
 
@@ -28,12 +25,6 @@ const NewsDetail = () => {
     (articleItem: NewsArticle) =>
       slugify(articleItem.headline.main).toLowerCase() === slug?.toLowerCase()
   );
-
-  useEffect(() => {
-    if (searchTerm.trim()) {
-      setSearchTerm("");
-    }
-  }, [searchTerm, setSearchTerm]);
 
   if (isLoading || isFetching) {
     return (

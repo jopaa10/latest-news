@@ -27,14 +27,20 @@ const CardLayout = () => {
   useEffect(() => {
     if (!isMobile) return;
 
-    if (searchTerm.trim() === "") {
+    const trimmed = searchTerm.trim();
+
+    if (trimmed === "") {
       setDebounced("");
+      navigate("/");
       return;
     }
 
+    if (trimmed.length < 3) return;
+
     const handler = setTimeout(() => {
-      setDebounced(searchTerm.trim());
-      navigate(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
+      setDebounced(trimmed);
+
+      navigate(`/search?q=${encodeURIComponent(trimmed)}`);
     }, 300);
 
     return () => clearTimeout(handler);
