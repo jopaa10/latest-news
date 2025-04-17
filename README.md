@@ -44,11 +44,11 @@ While the app supports many accessibility features (semantic HTML, ARIA labels, 
 
 ## 📁 Project Structure
 
-\`\`\`bash
+```bash
 latest-news-app/
 ├── client/ # React frontend
 ├── server/ # Node + Express backend
-\`\`\`
+```
 
 ---
 
@@ -56,26 +56,26 @@ latest-news-app/
 
 ### 1. Clone the repository
 
-\`\`\`bash
+```bash
 git clone [your-repo-url]
 cd latest-news-app
-\`\`\`
+```
 
 ### 2. Run the frontend
 
-\`\`\`bash
+```bash
 cd client
 npm install
 npm run dev
-\`\`\`
+```
 
 ### 3. Run the backend
 
-\`\`\`bash
+```bash
 cd server
 npm install
 npm run dev
-\`\`\`
+```
 
 ---
 
@@ -125,13 +125,14 @@ Everything installs locally — no global packages are required.
 \`\`\`bash
 npm install
 npm run dev
-\`\`\`
+
+````
 
 ---
 
 ### Deployment Notes
 
-This solution meets the requirement:  
+This solution meets the requirement:
 _"The solution should only have to be run with \`npm install\` and \`npm start\` (or \`npm run dev\`) — without global packages."_
 
 ---
@@ -144,9 +145,9 @@ To use the New York Times API, you’ll need to sign up for an API key:
 
 Add your API key to the \`.env\` file in the client directory:
 
-\`\`\`env
+```bash env
 VITE_NYT_API_KEY=your_api_key_here
-\`\`\`
+````
 
 ---
 
