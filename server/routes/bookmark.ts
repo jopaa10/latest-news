@@ -13,6 +13,10 @@ router.get(
     const userPayload = req.user as JwtPayload;
     const userId = userPayload?.id;
     try {
+      if (!userPayload?.id) {
+        return res.status(401).json({ error: "Token is invalid or expired" });
+      }
+
       const bookmarks = await prisma.bookmark.findMany({
         where: { userId: userId },
       });

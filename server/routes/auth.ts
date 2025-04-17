@@ -71,6 +71,7 @@ router.post("/register", async (req: Request, res: Response): Promise<any> => {
         <h2>Welcome to MyNews!</h2>
         <p>Click the link below to verify your email address:</p>
         <a href="${verificationUrl}">${verificationUrl}</a>
+        <p>This link will expire in 1 hour.</p>
       `,
     };
 
@@ -106,7 +107,7 @@ router.post("/login", async (req: Request, res: Response): Promise<any> => {
     }
 
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET as string, {
-      expiresIn: "1h",
+      expiresIn: "2h",
     });
 
     return res.status(200).json({
@@ -178,22 +179,6 @@ router.get(
       if (new Date() > verificationRecord.expiresAt) {
         return res.status(400).json({ error: "Token has expired" });
       }
-
-      // if (!verificationRecord) {
-      //   const user = await prisma.user.findFirst({
-      //     where: {
-      //       verified: true,
-      //     },
-      //     include: {
-      //       verificationTokens: true,
-      //     },
-      //   });
-      //   if (user?.verified) {
-      //     return res.status(200).json({ message: "Email already verified!" });
-      //   }
-
-      //   return res.status(400).json({ error: "Invalid or expired token" });
-      // }
 
       // Check if the token has expired
       if (new Date() > verificationRecord.expiresAt) {
