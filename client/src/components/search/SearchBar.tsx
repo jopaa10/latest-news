@@ -1,10 +1,10 @@
-import SearchIcon from "../assets/icons/SearchIcon";
-import { useSearch } from "../context/SearchContext";
-import "./../styles/searchBar.scss";
-import Logo from "./common/Logo";
-import { Close } from "../assets/icons";
+import SearchIcon from "../../assets/icons/SearchIcon";
+import { useSearch } from "../../context/SearchContext";
+import "../../styles/searchBar.scss";
+import Logo from "../common/Logo";
+import { Close } from "../../assets/icons";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Button } from "./common/Button";
+import { Button } from "../common/Button";
 import { useEffect } from "react";
 
 function SearchBar({ isChecked = false }: { isChecked?: boolean }) {
@@ -56,7 +56,11 @@ function SearchBar({ isChecked = false }: { isChecked?: boolean }) {
           aria-label="Search form"
           onSubmit={handleSubmit}
         >
-          <label htmlFor="search-input" className="visually-hidden">
+          <label
+            htmlFor="search-input"
+            style={{ display: "none" }}
+            aria-hidden="true"
+          >
             Search for news articles
           </label>
 

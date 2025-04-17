@@ -24,7 +24,7 @@ const MobileMenu = ({
               }
             }}
           >
-            {item}
+            <p className="title-nav">{item}</p>
           </li>
         ))}
       </ul>

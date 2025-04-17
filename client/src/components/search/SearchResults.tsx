@@ -1,8 +1,8 @@
 import { useLocation } from "react-router-dom";
-import { useSearchArticles } from "../hooks/useSearchArticles";
-import { transformToNYTArticle } from "../utils/transformToNYTArticle";
-import NewsList from "./news/NewsList";
-import Title from "./common/Title";
+import { useSearchArticles } from "../../hooks/useSearchArticles";
+import { transformToNYTArticle } from "../../utils/transformToNYTArticle";
+import NewsList from "../news/NewsList";
+import Title from "../common/Title";
 
 const SearchResults = () => {
   const query = new URLSearchParams(useLocation().search);

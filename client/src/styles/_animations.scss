@@ -69,3 +69,17 @@
     transform: rotate(360deg);
   }
 }
+
+@keyframes progress-line {
+  0% {
+    transform: scaleX(1);
+    left: 0;
+    bottom: -1px;
+  }
+
+  100% {
+    transform: scaleX(0);
+    left: 0;
+    bottom: -1px;
+  }
+}

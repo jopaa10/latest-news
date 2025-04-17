@@ -29,7 +29,7 @@ const NewsDetail = () => {
   if (isLoading || isFetching) {
     return (
       <section
-        className="news-detail"
+        className="news-details-skeleton"
         aria-label="Loading article"
         aria-busy="true"
         aria-live="polite"
@@ -68,10 +68,10 @@ const NewsDetail = () => {
               style={{ width: "100%", maxHeight: 400, objectFit: "cover" }}
             />
           )}
-          <p>{article.abstract}</p>
+          <p className="title-medium">{article.abstract}</p>
         </>
       ) : (
-        <p>Article not found.</p>
+        <p className="title-small">Article not found.</p>
       )}
     </article>
   );

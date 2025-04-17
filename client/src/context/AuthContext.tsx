@@ -81,8 +81,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       return;
     }
 
-    console.log(token);
-
     if (isTokenExpired(token)) {
       console.warn("Token expired. Logging out...");
       setShowToastMsg("Session expired. Logging out...");
@@ -94,6 +92,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
 
     setIsLoggedIn(true);
+
     fetchUserData(token);
 
     let idleTimeout: ReturnType<typeof setTimeout>;

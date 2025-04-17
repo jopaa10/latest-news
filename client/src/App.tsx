@@ -1,5 +1,5 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import Home from "./pages/Home";
+import Home from "./pages/HomePage";
 import CardLayout from "./components/layout/CardLayout";
 import CategoryPage from "./pages/CategoryPage";
 import NewsDetail from "./components/news/NewsDetail";
@@ -7,7 +7,7 @@ import LatestNews from "./pages/LatestNewsPage";
 import VerifyEmail from "./components/VerifyEmail";
 import FavoritesPage from "./pages/FavoritesPage";
 import ProtectedRoute from "./components/ProtectedRoute";
-import SearchResults from "./components/SearchResults";
+import SearchResults from "./components/search/SearchResults";
 
 function App() {
   return (

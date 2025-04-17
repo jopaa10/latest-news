@@ -9,8 +9,12 @@ const Logo = ({ isChecked = false }: { isChecked: boolean }) => {
       onClick={() => navigate("/")}
       aria-label="Go to homepage"
     >
-      <h1 className="red">My</h1>
-      <h1 className="black">News</h1>
+      <span className="red title-big" aria-hidden="true">
+        My
+      </span>
+      <span className="black title-big" aria-hidden="true">
+        News
+      </span>
     </button>
   );
 };

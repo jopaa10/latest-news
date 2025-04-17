@@ -18,8 +18,10 @@ const Hero = () => {
       <div className="hero-wrapper">
         <div className="hero">
           <div className="hero__text">
-            <h3>Make MyNews your homepage</h3>
-            <p>Every day discover what’s trending on the internet!</p>
+            <h1 className="title-medium">Make MyNews your homepage</h1>
+            <p className="title-medium">
+              Every day discover what’s trending on the internet!
+            </p>
           </div>
 
           <div className="button-container">
@@ -35,7 +37,7 @@ const Hero = () => {
             </Button>
 
             <Button
-              ariaLabel="Get button"
+              ariaLabel="Get"
               backgroundColor="#fff"
               textColor="#000"
               type="button"
@@ -44,9 +46,13 @@ const Hero = () => {
             </Button>
             {isLoggedIn ? (
               <div className="logout-container">
-                <p>Welcome, {username}</p>
-                <button className="logout" onClick={handleLogout}>
-                  <span>
+                <p className="title-medium">Welcome, {username}</p>
+                <button
+                  className="logout"
+                  onClick={handleLogout}
+                  aria-label="Click to logout"
+                >
+                  <span aria-hidden="true">
                     <Logout />
                   </span>
                 </button>

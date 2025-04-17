@@ -68,6 +68,20 @@ const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
     e: React.MouseEvent | React.KeyboardEvent
   ) => {
     e.stopPropagation();
+
+    const optimisticMessage = isBookmarked
+      ? "Removing bookmark..."
+      : "Adding bookmark...";
+
+    // Show instant feedback
+    setToastMessage(optimisticMessage);
+    setToastDuration(1);
+    setShowToast(true);
+
+    setTimeout(() => {
+      setShowToast(false);
+    }, 1500);
+
     const start = Date.now();
 
     try {
@@ -108,7 +122,7 @@ const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
     button.classList.add("clicked");
     setTimeout(() => {
       button.classList.remove("clicked");
-    }, 500); // match animation duration
+    }, 500);
     handleBookmarkToggle(e);
   };
 
@@ -137,12 +151,12 @@ const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
           <div className="news-content">
             <div className="heading">
               <p
-                className="category"
+                className="category title-category"
                 aria-label={`Article category: ${article.section}`}
               >
                 {article.section}
               </p>
-              <h2 className="title">{article.title}</h2>
+              <h2 className="title-medium">{article.title}</h2>
               {isLoggedIn && (
                 <button
                   className="bookmark-btn"
@@ -164,7 +178,10 @@ const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
                 </button>
               )}
             </div>
-            <p className="author" aria-label={`Written by ${author}`}>
+            <p
+              className="author title-small"
+              aria-label={`Written by ${author}`}
+            >
               {author}
             </p>
           </div>

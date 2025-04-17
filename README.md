@@ -42,6 +42,28 @@ While the app supports many accessibility features (semantic HTML, ARIA labels, 
 
 ---
 
+## 🎨 Design Decisions and Reasoning
+
+Throughout the development of this app, several design choices were made to enhance user experience, accessibility, and performance:
+
+### 1. Color Contrast Adjustments for Sidebar:
+
+One significant change was improving the color contrast of the sidebar. Initially, the contrast didn’t meet accessibility standards, and this was identified using the axe DevTools extension. Enhancing the color contrast ensures better readability for users with visual impairments, aligning with WCAG guidelines for accessibility.
+
+### 2. Toast Notifications for Favorites:
+
+To improve user feedback, I added a toast component to notify users when they add or remove news from their favorites. This enhances the UX by providing real-time feedback without interrupting the user's workflow, giving them assurance that their actions were successfully completed.
+
+### 3. Login/Registration Modal Design:
+
+Instead of navigating to a separate page, the login and registration process was implemented as a modal. The design was aligned with the app’s existing color scheme, ensuring a cohesive look and feel. This choice minimizes page reloads, keeping the user on the current page for a more fluid experience.
+
+### 4. Skeleton Loader for News Loading:
+
+Instead of a traditional loading spinner, I introduced a news skeleton loader. This modern approach simulates the layout of the news cards while they load, providing a smoother and more visually appealing experience. It also helps users understand the structure of the content while waiting for it to load, improving perceived performance.
+
+---
+
 ## 📁 Project Structure
 
 ```bash
@@ -58,7 +80,7 @@ latest-news-app/
 
 ```bash
 git clone [your-repo-url]
-cd latest-news-app
+cd latest-news
 ```
 
 ### 2. Run the frontend
@@ -127,13 +149,6 @@ npm install
 npm run dev
 
 ```
-
----
-
-### Deployment Notes
-
-This solution meets the requirement:
-_"The solution should only have to be run with `npm install` and `npm start` (or `npm run dev`) — without global packages."_
 
 ---
 

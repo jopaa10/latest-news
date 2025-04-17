@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import SearchBar from "../SearchBar";
+import SearchBar from "../search/SearchBar";
 import { NavLink } from "react-router-dom";
 import { categories } from "../../utils/categoryData";
 import { Bookmarks, Logout, User } from "../../assets/icons";
@@ -53,7 +53,7 @@ const MobileNavbar = () => {
       >
         {isLoggedIn ? (
           <>
-            <p>Welcome, {username}</p>
+            <p className="title-medium">Welcome, {username}</p>
             <button onClick={handleLogout} aria-label="Log out">
               <span aria-hidden="true">
                 <Logout />
@@ -80,7 +80,9 @@ const MobileNavbar = () => {
         />
         <label
           htmlFor="navi-toggle"
-          className="navbar__button"
+          className={`navbar__button ${
+            isChecked ? "navbar__button--open" : ""
+          }`}
           aria-label={isChecked ? "Close menu" : "Open menu"}
         >
           <span className="navbar__icon" aria-hidden="true">
@@ -115,7 +117,7 @@ const MobileNavbar = () => {
                   onClick={() => setIsChecked(false)}
                 >
                   <span className="sidebar-icon">{cat.icon}</span>
-                  <p>{cat.name}</p>
+                  <p className="title-nav">{cat.name}</p>
                 </NavLink>
               </li>
             ))}

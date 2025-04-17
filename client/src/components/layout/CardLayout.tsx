@@ -1,7 +1,7 @@
 import "../../styles/cardLayout.scss";
 import { Outlet, useNavigate } from "react-router-dom";
 import Sidebar from "../navbar/Sidebar";
-import SearchBar from "../SearchBar";
+import SearchBar from "../search/SearchBar";
 import Separator from "../../assets/icons/Separator";
 import { useEffect, useState } from "react";
 import { SearchContext } from "../../context/SearchContext";
@@ -57,9 +57,12 @@ const CardLayout = () => {
         <main>
           <MobileNavbar />
           <SearchBar />
-          <span aria-hidden={"true"}>
-            <Separator size={"100%"} />
-          </span>
+          {!isMobile && (
+            <span aria-hidden={"true"}>
+              <Separator size={"100%"} />
+            </span>
+          )}
+
           <div className="main-container">
             <Sidebar />
             <Outlet />

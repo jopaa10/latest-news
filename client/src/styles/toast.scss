@@ -1,5 +1,6 @@
 @use "./variables" as *;
 @use "./mixins" as *;
+@use "./animations" as *;
 
 .custom-toast {
   position: fixed;
@@ -42,19 +43,5 @@
     border-bottom-right-radius: 10px;
     overflow-y: hidden;
     padding-top: 2px;
-  }
-
-  @keyframes progress-line {
-    0% {
-      transform: scaleX(1);
-      left: 0;
-      bottom: -1px;
-    }
-
-    100% {
-      transform: scaleX(0);
-      left: 0;
-      bottom: -1px;
-    }
   }
 }

@@ -33,18 +33,4 @@
       display: none;
     }
   }
-
-  &__title {
-    text-transform: capitalize;
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 24px;
-    letter-spacing: -0.15px;
-    margin-top: 10px;
-    margin-bottom: 16px;
-
-    @include respond(sm-phone) {
-      display: none;
-    }
-  }
 }

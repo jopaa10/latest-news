@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import LatestNewsSkeleton from "./LatestNewsSkeleton";
 import { slugify } from "../../utils/createSlug";
 import { NYTArticle } from "../../types/newsTypes";
-import Title from "../common/Title";
 
 const LIMIT = 25;
 
@@ -17,6 +16,7 @@ const LatestNewsWidget = () => {
   const {
     data,
     isLoading,
+    isFetching,
     isError,
     fetchNextPage,
     hasNextPage,
@@ -74,7 +74,7 @@ const LatestNewsWidget = () => {
     <div className="latest-news-widget">
       <div className="widget-header">
         <span className="dot" aria-hidden="true"></span>
-        <Title text="Latest news" />
+        <h2 className="title-medium"> Latest news </h2>
       </div>
 
       <div
@@ -83,13 +83,14 @@ const LatestNewsWidget = () => {
         aria-labelledby="latest-news-heading"
         ref={scrollRef}
       >
-        {isLoading && (
-          <div className="news-skeleton" aria-busy="true" aria-live="polite">
-            {[...Array(LIMIT)].map((_, index) => (
-              <LatestNewsSkeleton key={index} />
-            ))}
-          </div>
-        )}
+        {isLoading ||
+          (isFetching && (
+            <div className="news-skeleton" aria-busy="true" aria-live="polite">
+              {[...Array(LIMIT)].map((_, index) => (
+                <LatestNewsSkeleton key={index} />
+              ))}
+            </div>
+          ))}
         {isError && <p role="alert">Error loading latest news.</p>}
 
         <ul className="news-list">
@@ -126,7 +127,7 @@ const LatestNewsWidget = () => {
                         minute: "2-digit",
                       })}
                     </span>
-                    <p className="news-item__title">{item.title}</p>
+                    <h2 className="title-medium">{item.title}</h2>
                   </button>
                 ))}
             </li>
@@ -145,12 +146,12 @@ const LatestNewsWidget = () => {
       </div>
 
       <button
-        className="see-all"
+        className="see-all title-medium"
         onClick={() => navigate("/see-all-news")}
         aria-label="See all latest news articles"
       >
         See all news
-        <span>
+        <span aria-hidden="true">
           <ArrowRight />
         </span>
       </button>
