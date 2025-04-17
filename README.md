@@ -81,15 +81,15 @@ npm run dev
 
 ## 🛠️ Environment Setup
 
-Make sure to update the \`.env\` files in both the \`client\` and \`server\` directories. Use \`localhost\` for ports during development.
+Make sure to update the `.env` files in both the \`client\` and \`server\` directories. Use \`localhost\` for ports during development.
 
-### \`/client/.env\`
+### /client/.env
 
 ```env
 VITE_NYT_API_KEY=your_nyt_api_key_here
 ```
 
-### \`/server/.env\`
+### /server/.env
 
 ```env
 PORT=5000
