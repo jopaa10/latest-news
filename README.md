@@ -44,44 +44,54 @@ While the app supports many accessibility features (semantic HTML, ARIA labels, 
 
 ## 📁 Project Structure
 
-latest-news-app/ ├── client/ # React frontend └── server/ # Node + Express backend
+\`\`\`bash
+latest-news-app/
+├── client/ # React frontend
+├── server/ # Node + Express backend
+\`\`\`
 
-\---
+---
 
 ## 🚀 Getting Started
 
-### 1\. Clone the repository
+### 1. Clone the repository
 
 \`\`\`bash
-
-git clone \[your-repo-url\]
-
+git clone [your-repo-url]
 cd latest-news-app
+\`\`\`
 
-\### 2. Run the frontend
+### 2. Run the frontend
 
+\`\`\`bash
 cd client
-
 npm install
-
 npm run dev
+\`\`\`
 
-\### 3. Run the backend
+### 3. Run the backend
 
+\`\`\`bash
 cd server
-
 npm install
-
 npm run dev
+\`\`\`
 
-\## 🛠️ Make sure to update the .env files in both client and server folders. Use localhost for ports during development.
+---
 
-/client/.env
+## 🛠️ Environment Setup
 
-VITE_NYT_API_KEY\=your_nyt_api_key_here
+Make sure to update the \`.env\` files in both the \`client\` and \`server\` directories. Use \`localhost\` for ports during development.
 
-/server/.env
+### \`/client/.env\`
 
+\`\`\`env
+VITE_NYT_API_KEY=your_nyt_api_key_here
+\`\`\`
+
+### \`/server/.env\`
+
+\`\`\`env
 PORT=5000
 
 # Database configuration
@@ -101,31 +111,46 @@ SMTP_PASS=your_email_app_password
 # Frontend URL (for CORS / verification emails, etc.)
 
 FRONTEND_URL=http://localhost:5173
+\`\`\`
 
-FRONTEND_URL\=http://localhost:5173
+---
 
-\## ✅ Deployment
+## ✅ Deployment
 
-Frontend deployed on Vercel
-
-Backend deployed on Render
+- **Frontend** is deployed on **Vercel**
+- **Backend** is deployed on **Render**
 
 Everything installs locally — no global packages are required.
 
+\`\`\`bash
 npm install
-
 npm run dev
+\`\`\`
 
-"The solution should only have to be run with npm install and npm start (or npm run dev) — without global packages."
+---
 
-🔒 API Key
+### Deployment Notes
+
+This solution meets the requirement:  
+_"The solution should only have to be run with \`npm install\` and \`npm start\` (or \`npm run dev\`) — without global packages."_
+
+---
+
+## 🔒 API Key
 
 To use the New York Times API, you’ll need to sign up for an API key:
 
-📌 https://developer.nytimes.com/
+📌 [NYT Developer API](https://developer.nytimes.com/)
 
-VITE_NYT_API_KEY\=your_api_key_here
+Add your API key to the \`.env\` file in the client directory:
 
-```
+\`\`\`env
+VITE_NYT_API_KEY=your_api_key_here
+\`\`\`
 
-```
+---
+
+## 📋 Future Improvements
+
+- Font resizing to make the app more accessible for users with visual impairments.
+- Further WCAG compliance improvements.
