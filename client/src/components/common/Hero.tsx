@@ -1,8 +1,9 @@
 import { useState } from "react";
 import "../../styles/hero.scss";
 import Modal from "../modal/LoginModal";
-import { useAuth } from "../../context/AuthContext";
 import { Logout, User } from "../../assets/icons";
+import { useAuth } from "../../hooks/useAuth";
+import { Button } from "./Button";
 
 const Hero = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -22,8 +23,25 @@ const Hero = () => {
           </div>
 
           <div className="button-container">
-            <p>No, thanks</p>
-            <button>Get</button>
+            <Button
+              type="button"
+              textColor="#fff"
+              backgroundColor="transparent"
+              cls="skip-btn"
+              onClick={() => console.log("User skipped onboarding")}
+              ariaLabel="Dismiss homepage prompt"
+            >
+              No, thanks
+            </Button>
+
+            <Button
+              ariaLabel="Get button"
+              backgroundColor="#fff"
+              textColor="#000"
+              type="button"
+            >
+              Get
+            </Button>
             {isLoggedIn ? (
               <div className="logout-container">
                 <p>Welcome, {username}</p>
@@ -37,9 +55,9 @@ const Hero = () => {
               <button
                 className="login"
                 onClick={handleOpenModal}
-                aria-label="Click to login"
+                aria-label="Open login modal"
               >
-                <span>
+                <span aria-hidden="true">
                   <User />
                 </span>
               </button>

@@ -1,0 +1,14 @@
+@use "../styles/mixins" as *;
+
+.error-message {
+  @include flexCenter;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+
+  button {
+    box-shadow: 0 0 3px 1px;
+    max-width: 11rem;
+  }
+}

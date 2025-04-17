@@ -7,6 +7,12 @@
   width: 100%;
   padding: 0 1rem;
 
+  .mobile-menu {
+    ul {
+      display: flex;
+    }
+  }
+
   @include respond(sm-phone) {
     align-items: center;
     padding: 0;
@@ -39,26 +45,6 @@
 
     @include respond(sm-phone) {
       display: none;
-    }
-  }
-
-  .top-section {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 20px;
-
-    @include respond(sm-phone) {
-      display: flex;
-      flex-wrap: wrap;
-    }
-  }
-
-  .bottom-section {
-    margin-top: 22px;
-
-    @include respond(sm-phone) {
-      display: flex;
-      flex-wrap: wrap;
     }
   }
 }

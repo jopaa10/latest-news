@@ -1,4 +1,4 @@
-import { NewsArticle, NYTArticle } from "../types/articleTypes";
+import { NewsArticle, NYTArticle } from "../types/newsTypes";
 
 const API_BASE_URL = "https://api.nytimes.com/svc";
 const API_KEY = import.meta.env.VITE_NYT_API_KEY;

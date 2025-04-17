@@ -5,18 +5,33 @@ $sm: 40rem;
 
 $body-font: "InterVariable";
 
-//background colors
-$background-color: #f1f1f1;
-$background-color-white: #fff;
-$background-color-red: #bb1e1e;
+// Backgrounds
+$bg-surface: #f1f1f1;
+$bg-primary: #bb1e1e;
+$bg-secondary: #d90000;
+$bg-neutral: #f0f0f0;
+$bg-inverse: #000000;
+$bg-white: #ffffff;
+$bg-active: rgba(187, 30, 30, 0.1);
+$bg-overlay: rgba(0, 0, 0, 0.4);
 
-//text colors
-$text-color-white: #fff;
-$text-color-black: #000;
-$text-color-red: #bb1e1e;
-$text-color-black-lighter: #666666;
-$text-color-blue: #1e71bb;
-//$text-color-black-lighter: #1d1d1b;
+// Text
+$text-primary: #000000;
+$text-secondary: #666666;
+$text-accent: #1e71bb;
+$text-inverse: #ffffff;
+$text-danger: #bb1e1e;
 
-//focus
-$outline-color: red;
+// Focus / States
+$focus-outline: #ff0000;
+
+$gray-light: #f4f5f8;
+$gray-skeleton: #dddddd;
+
+// Shadows
+$shadow-color: rgba(0, 0%, 0%, 0.1);
+$shadow-dark: rgba(0, 0, 0, 0.25);
+
+// Loading & Interactive States
+$loading-bg: #f3f3f3;
+$loading-border: $bg-secondary;

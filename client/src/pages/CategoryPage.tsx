@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { fetchArticlesByCategory } from "../api/nytApi";
-import NewsCard from "../components/news/NewsCard";
 import "../styles/categoryPage.scss";
 import { useSearch } from "../context/SearchContext";
-import NewsCardSkeleton from "../components/news/NewsCardSkeleton";
-import { NYTArticle } from "../types/articleTypes";
+import { NYTArticle } from "../types/newsTypes";
+import NewsList from "../components/news/NewsList";
+import Title from "../components/common/Title";
 
 const CategoryPage = () => {
   const { category = "world" } = useParams();
@@ -15,6 +15,7 @@ const CategoryPage = () => {
     data: articles = [],
     isLoading,
     isError,
+    isFetching,
   } = useQuery<NYTArticle[]>({
     queryKey: ["articles", category],
     queryFn: () => fetchArticlesByCategory(category),
@@ -25,33 +26,23 @@ const CategoryPage = () => {
     article.title.toLowerCase().includes(debounced.toLowerCase())
   );
 
-  if (isLoading) {
+  if (isLoading || isFetching) {
     return (
       <div className="news-container news-skeleton">
-        <h2>{category} news</h2>
-        <ul className="article-list">
-          {[...Array(6)].map((_, index) => (
-            <li key={index} className="article-list__item">
-              <NewsCardSkeleton />
-            </li>
-          ))}
-        </ul>
+        <Title text={`${category} news`} />
+        <NewsList articles={[]} isLoading={true} />
       </div>
     );
   }
-  if (isError) return <p>Something went wrong while fetching articles 😢</p>;
+  if (isError) return <p>Something went wrong while fetching articles.</p>;
 
   return (
     <div className="news-container">
-      <h2>{category} news</h2>
+      <Title text={`${category} news`} />
       {filtered.length === 0 ? (
         <p>No articles found.</p>
       ) : (
-        <ul className="article-list">
-          {filtered.map((article, index) => (
-            <NewsCard key={index} article={article} />
-          ))}
-        </ul>
+        <NewsList articles={filtered} />
       )}
     </div>
   );

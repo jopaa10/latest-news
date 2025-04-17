@@ -44,6 +44,7 @@ export default function PasswordField({
           onChange={(e) => handleChange(e.target.value)}
           required={required}
           aria-required={required}
+          aria-describedby={`${id}-password-description`}
         />
         <button
           type="button"
@@ -56,7 +57,12 @@ export default function PasswordField({
       </div>
 
       {showChecklist && hasStartedTyping && (
-        <ul className="password-checklist" aria-live="polite" role="list">
+        <ul
+          className="password-checklist"
+          aria-live="polite"
+          role="list"
+          id={`${id}-password-description`}
+        >
           <li className={passwordRules.length ? "valid" : ""}>
             {passwordRules.length ? (
               <Check aria-hidden="true" />

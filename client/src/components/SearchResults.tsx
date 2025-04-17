@@ -1,8 +1,8 @@
 import { useLocation } from "react-router-dom";
 import { useSearchArticles } from "../hooks/useSearchArticles";
 import { transformToNYTArticle } from "../utils/transformToNYTArticle";
-import NewsCard from "./news/NewsCard";
-import NewsCardSkeleton from "./news/NewsCardSkeleton";
+import NewsList from "./news/NewsList";
+import Title from "./common/Title";
 
 const SearchResults = () => {
   const query = new URLSearchParams(useLocation().search);
@@ -17,14 +17,7 @@ const SearchResults = () => {
   if (isLoading || isFetching) {
     return (
       <div className="news-container news-skeleton">
-        <h2>Search results for "{searchTerm}"</h2>
-        <ul className="article-list">
-          {[...Array(6)].map((_, index) => (
-            <li key={index} className="article-list__item">
-              <NewsCardSkeleton />
-            </li>
-          ))}
-        </ul>
+        <NewsList articles={[]} isLoading={true} isFetching={true} />
       </div>
     );
   }
@@ -33,14 +26,21 @@ const SearchResults = () => {
   const transformedArticles = articles?.map(transformToNYTArticle) || [];
 
   return (
-    <div className="news-container search-results">
-      <h2>Search results for "{searchTerm}"</h2>
-      <ul className="article-list">
-        {transformedArticles.map((article, index) => (
-          <NewsCard key={index} article={article} />
-        ))}
-      </ul>
-    </div>
+    <section
+      className="news-container search-results"
+      aria-labelledby="search-heading"
+    >
+      <Title text={`Search results for "${searchTerm}"`} />
+      <div aria-live="polite" aria-busy={isLoading || isFetching}>
+        {isLoading || isFetching ? (
+          <NewsList articles={[]} isLoading={true} isFetching={true} />
+        ) : transformedArticles.length === 0 ? (
+          <p>No results found for "{searchTerm}".</p>
+        ) : (
+          <NewsList articles={transformedArticles} />
+        )}
+      </div>
+    </section>
   );
 };
 

@@ -7,6 +7,7 @@ const Logo = ({ isChecked = false }: { isChecked: boolean }) => {
     <button
       className={`logo ${isChecked ? "logo--checked" : ""}`}
       onClick={() => navigate("/")}
+      aria-label="Go to homepage"
     >
       <h1 className="red">My</h1>
       <h1 className="black">News</h1>

@@ -1,4 +1,3 @@
-import { JSX } from "react";
 import {
   Briefcase,
   Description,
@@ -8,12 +7,7 @@ import {
   SportsSoccer,
   Tv,
 } from "../assets/icons/index";
-
-export interface Category {
-  name: string;
-  icon: JSX.Element;
-  path: string;
-}
+import { Category } from "../types/categoryTypes";
 
 export const categories: Category[] = [
   { name: "Home", icon: <Home />, path: "/" },

@@ -1,23 +1,11 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { fetchCurrentUser } from "../api/auth";
 import Toast from "../components/common/Toast";
 import { useNavigate } from "react-router-dom";
-import { AuthContextType, AuthProviderProps } from "../types/authTypes";
-
-const IDLE_TIMEOUT = 60 * 60 * 1000;
-const COUNTDOWN_DURATION = 10;
-
-// Create the context
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-// Create a custom hook to access the context
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
-};
+import { AuthProviderProps } from "../types/authTypes";
+import { AuthContext } from "../hooks/useAuth";
+import { isTokenExpired } from "../utils/isTokenExpired";
+import { COUNTDOWN_DURATION, IDLE_TIMEOUT } from "../utils/constants";
 
 // Create the AuthProvider to wrap the App and provide the context
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
@@ -52,6 +40,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     navigate("/");
   };
 
+  const triggerLogoutWithToast = (message: string) => {
+    setShowToastMsg(message);
+    setShowToast(true);
+    setLogoutCountdown(COUNTDOWN_DURATION);
+
+    let countdown = COUNTDOWN_DURATION;
+    const interval = setInterval(() => {
+      countdown -= 1;
+      setLogoutCountdown(countdown);
+
+      if (countdown <= 0) {
+        clearInterval(interval);
+        handleLogout();
+      }
+    }, 1000);
+  };
+
   const fetchUserData = (token: string) => {
     fetchCurrentUser(token)
       .then((data) => {
@@ -60,18 +65,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         }
       })
       .catch((error) => {
-        if (
-          error.message === "Unauthorized" ||
-          error.message === "UserNotFound" ||
-          error.message === "Forbidden"
-        ) {
-          setShowToastMsg("Session expired. Logging out...");
-          setShowToast(true);
+        const authErrors = ["Unauthorized", "UserNotFound", "Forbidden"];
 
-          // Delay logout until toast disappears (e.g., after 4s)
-          setTimeout(() => {
-            handleLogout();
-          }, 4000);
+        if (authErrors.includes(error.message)) {
+          triggerLogoutWithToast("Session expired. Logging out...");
         } else {
           console.warn("Non-auth error fetching user data:", error);
         }
@@ -79,6 +76,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   useEffect(() => {
+    if (!token) {
+      setIsLoggedIn(false);
+      return;
+    }
+
+    if (isTokenExpired(token)) {
+      console.warn("Token expired. Logging out...");
+      setShowToastMsg("Session expired. Logging out...");
+      setShowToast(true);
+      setTimeout(() => {
+        handleLogout();
+      }, 4000);
+      return;
+    }
+
+    setIsLoggedIn(true);
+    fetchUserData(token);
+
     let idleTimeout: ReturnType<typeof setTimeout>;
     let countdownInterval: ReturnType<typeof setInterval>;
 
@@ -88,28 +103,34 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setShowToast(false);
       setLogoutCountdown(null);
 
-      // Wait 1 minute of inactivity before starting the countdown
       idleTimeout = setTimeout(() => {
-        setShowToast(true);
-        setLogoutCountdown(COUNTDOWN_DURATION);
-
-        let countdown = COUNTDOWN_DURATION;
-        countdownInterval = setInterval(() => {
-          countdown -= 1;
-          setLogoutCountdown(countdown);
-
-          if (countdown <= 0) {
-            clearInterval(countdownInterval);
+        if (token && isTokenExpired(token)) {
+          setShowToastMsg("Session expired. Logging out...");
+          setShowToast(true);
+          setTimeout(() => {
             handleLogout();
-          }
-        }, 1000);
+          }, 4000);
+        } else {
+          setShowToastMsg("No activity. Logging out soon...");
+          setShowToast(true);
+          setLogoutCountdown(COUNTDOWN_DURATION);
+
+          let countdown = COUNTDOWN_DURATION;
+          countdownInterval = setInterval(() => {
+            countdown -= 1;
+            setLogoutCountdown(countdown);
+
+            if (countdown <= 0) {
+              clearInterval(countdownInterval);
+              handleLogout();
+            }
+          }, 1000);
+        }
       }, IDLE_TIMEOUT);
     };
 
     const events = ["mousemove", "keydown", "scroll", "click", "touchstart"];
     events.forEach((e) => window.addEventListener(e, resetTimers));
-
-    // Initialize
     resetTimers();
 
     return () => {
@@ -117,15 +138,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       clearTimeout(idleTimeout);
       clearInterval(countdownInterval);
     };
-  }, []);
-
-  useEffect(() => {
-    if (token) {
-      setIsLoggedIn(true);
-      fetchUserData(token);
-    } else {
-      setIsLoggedIn(false);
-    }
   }, [token]);
 
   return (

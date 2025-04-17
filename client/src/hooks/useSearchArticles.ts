@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { searchArticleByTitle } from "../api/nytApi";
-import { NewsArticle } from "../types/articleTypes";
+import { NewsArticle } from "../types/newsTypes";
 
 export const useSearchArticles = (searchTerm: string) => {
   return useQuery<NewsArticle[], Error>({

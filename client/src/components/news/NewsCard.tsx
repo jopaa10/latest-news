@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import "../../styles/news.scss";
 import fallbackImage from "../../assets/images/news.png";
 import { slugify } from "../../utils/createSlug";
-import { useAuth } from "../../context/AuthContext";
 import { Bookmark, BookmarkBorder } from "../../assets/icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addBookmark, removeBookmark } from "../../api/bookmarks";
@@ -10,7 +9,8 @@ import { useBookmarks } from "../../hooks/useBookmarks";
 import { SimplifiedBookmark } from "../../types/bookmarkTypes";
 import { useState } from "react";
 import Toast from "../common/Toast";
-import { NYTArticleWithId } from "../../types/articleTypes";
+import { NYTArticleWithId } from "../../types/newsTypes";
+import { useAuth } from "../../hooks/useAuth";
 
 const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
   const { isLoggedIn, token } = useAuth();
@@ -130,6 +130,7 @@ const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
               handleClick(e);
             }
           }}
+          aria-label={`Read article titled ${article.title}`}
         >
           <img src={image || fallbackImage} alt={altText} />
           <div className="news-content">
@@ -140,9 +141,7 @@ const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
               >
                 {article.section}
               </p>
-              <h2 aria-label={`Article title: ${article.title}`}>
-                {article.title}
-              </h2>
+              <h2 className="title">{article.title}</h2>
               {isLoggedIn && (
                 <button
                   className="bookmark-btn"
@@ -164,7 +163,7 @@ const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
                 </button>
               )}
             </div>
-            <p className="author" aria-label={`Author ${author}`}>
+            <p className="author" aria-label={`Written by ${author}`}>
               {author}
             </p>
           </div>

@@ -1,7 +1,6 @@
-import NewsCard from "../components/news/NewsCard";
 import { useBookmarks } from "../hooks/useBookmarks";
-import NewsCardSkeleton from "../components/news/NewsCardSkeleton";
-import { NYTArticleWithId } from "../types/articleTypes";
+import NewsList from "../components/news/NewsList";
+import Title from "../components/common/Title";
 
 const FavoritesPage = () => {
   const { data: bookmarks, isLoading, isError } = useBookmarks();
@@ -9,14 +8,8 @@ const FavoritesPage = () => {
   if (isLoading) {
     return (
       <div className="news-container news-skeleton">
-        <h2>Your Bookmarked Articles</h2>
-        <ul className="article-list">
-          {[...Array(6)].map((_, index) => (
-            <li key={index} className="article-list__item">
-              <NewsCardSkeleton />
-            </li>
-          ))}
-        </ul>
+        <Title text="Your Bookmarked Article" />
+        <NewsList articles={[]} isLoading={true} />
       </div>
     );
   }
@@ -24,18 +17,11 @@ const FavoritesPage = () => {
 
   return (
     <div className="favorites-container">
-      <h2>Your Bookmarked Articles</h2>
+      <Title text="Your Bookmarked Article" />
       {Array.isArray(bookmarks) && bookmarks?.length === 0 ? (
         <p>No favorites added yet.</p>
       ) : (
-        <ul className="article-list">
-          {Array.isArray(bookmarks) &&
-            bookmarks?.map((article: NYTArticleWithId, index: number) => (
-              <li key={index}>
-                <NewsCard article={article} />
-              </li>
-            ))}
-        </ul>
+        <NewsList articles={Array.isArray(bookmarks) ? bookmarks : []} />
       )}
     </div>
   );

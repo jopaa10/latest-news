@@ -3,7 +3,7 @@ import SearchBar from "../SearchBar";
 import { NavLink } from "react-router-dom";
 import { categories } from "../../utils/categoryData";
 import { Bookmarks, Logout, User } from "../../assets/icons";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../hooks/useAuth";
 import Modal from "../modal/LoginModal";
 
 const MobileNavbar = () => {
@@ -49,20 +49,20 @@ const MobileNavbar = () => {
       <div
         className={`login-container ${
           isLoggedIn ? "login-container--logged" : ""
-        }`}
+        } ${isChecked ? "login-container--navbar-open" : ""}`}
       >
         {isLoggedIn ? (
           <>
             <p>Welcome, {username}</p>
-            <button onClick={handleLogout}>
-              <span>
+            <button onClick={handleLogout} aria-label="Log out">
+              <span aria-hidden="true">
                 <Logout />
               </span>
             </button>
           </>
         ) : (
-          <button onClick={handleOpenModal}>
-            <span>
+          <button onClick={handleOpenModal} aria-label="Open login modal">
+            <span aria-hidden="true">
               <User />
             </span>
           </button>
@@ -75,9 +75,17 @@ const MobileNavbar = () => {
           id="navi-toggle"
           checked={isChecked}
           onChange={() => setIsChecked(!isChecked)}
+          aria-controls="mobile-navigation"
+          aria-expanded={isChecked}
         />
-        <label htmlFor="navi-toggle" className="navbar__button">
-          <span className="navbar__icon">&nbsp;</span>
+        <label
+          htmlFor="navi-toggle"
+          className="navbar__button"
+          aria-label={isChecked ? "Close menu" : "Open menu"}
+        >
+          <span className="navbar__icon" aria-hidden="true">
+            &nbsp;
+          </span>
         </label>
 
         <div
@@ -86,11 +94,17 @@ const MobileNavbar = () => {
             position: !startedScrolling ? "fixed" : "absolute",
             top: startedScrolling ? "-2rem" : "",
           }}
+          aria-hidden="true"
         >
           &nbsp;
         </div>
 
-        <nav className={`navbar__nav ${isChecked ? "navbar__nav--open" : ""}`}>
+        <nav
+          id="mobile-navigation"
+          role="navigation"
+          aria-label="Mobile main menu"
+          className={`navbar__nav ${isChecked ? "navbar__nav--open" : ""}`}
+        >
           {isChecked && <SearchBar isChecked={isChecked} />}
           <ul className="navbar__list">
             {categoriesState.map((cat) => (

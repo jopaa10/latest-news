@@ -4,24 +4,27 @@
 
 .latest-news-widget {
   max-width: 300px;
-  background: $background-color-white;
+  background: $bg-white;
   border-radius: 8px;
-  box-shadow: 0 1px 3px hsla(0, 0%, 0%, 0.1);
-  padding-left: 15px;
+  box-shadow: 0 1px 3px $shadow-color;
   display: flex;
   flex-direction: column;
   height: 529px;
+
+  @media (min-width: 1045px) {
+    max-width: 318px;
+  }
 
   .widget-header {
     display: flex;
     align-items: center;
     gap: 8px;
-    margin: 15px 0 10px 0;
+    margin: 15px 0 10px 15px;
 
     .dot {
       width: 10px;
       height: 10px;
-      background-color: rgb(217, 0, 0);
+      background-color: $bg-secondary;
       border-radius: 50%;
       margin-right: 8px;
       position: relative;
@@ -34,7 +37,7 @@
         width: 100%;
         height: 100%;
         border-radius: 50%;
-        background-color: rgb(217, 0, 0);
+        background-color: $bg-secondary;
         animation: pulse 1.5s ease-out infinite;
         opacity: 0.6;
       }
@@ -52,13 +55,13 @@
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    padding-right: 5px;
     max-height: 529px;
     position: relative;
+    padding: 0 1rem 0 1.5rem;
 
     .news-item {
-      border-bottom: 1px solid #f4f5f8;
-      padding: 13px 0;
+      border-bottom: 1px solid $gray-light;
+      padding: 1.3rem 2rem 1.4rem 0;
       display: flex;
       flex-direction: column;
       border-top: none;
@@ -68,11 +71,11 @@
 
       .time {
         font-size: 12px;
-        color: $text-color-blue;
+        color: $text-accent;
         padding-bottom: 3px;
       }
 
-      .title {
+      &__title {
         font-size: 14px;
         font-weight: 500;
         margin: 0;
@@ -97,8 +100,8 @@
     padding-bottom: 10px;
 
     &__icon {
-      border: 4px solid #f3f3f3;
-      border-top: 4px solid #d90000;
+      border: 4px solid $loading-bg;
+      border-top: 4px solid $loading-border;
       border-radius: 50%;
       width: 40px;
       height: 40px;
@@ -109,11 +112,10 @@
   .see-all {
     display: flex;
     align-items: center;
-    max-height: 51px;
-    height: 100%;
     font-size: 14px;
-    color: rgba(30, 113, 187, 1);
-    margin-top: 10px;
+    color: $text-accent;
+    margin: 2rem 0 1rem 1rem;
+    background: none;
     cursor: pointer;
 
     span {
@@ -131,18 +133,19 @@
 
   .loading {
     text-align: center;
+    margin: 1rem;
   }
 }
 
 .news-item-skeleton {
-  border-bottom: 1px solid #f4f5f8;
+  border-bottom: 1px solid $gray-light;
   padding: 13px 0;
   display: flex;
   flex-direction: column;
 
   .time-skeleton,
   .title-skeleton {
-    background-color: #ddd;
+    background-color: $gray-skeleton;
     border-radius: 4px;
     animation: pulse 1.5s ease-in-out infinite;
   }

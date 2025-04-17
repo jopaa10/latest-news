@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { useAuth } from "../context/AuthContext";
 import { getBookmarks } from "../api/bookmarks";
+import { useAuth } from "./useAuth";
 
 export const useBookmarks = () => {
   const { token } = useAuth();

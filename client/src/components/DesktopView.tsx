@@ -1,4 +1,4 @@
-import NewsList from "./news/NewsList";
+import NewsList from "./news/HomeNewsFeed";
 
 const DesktopView = () => {
   return (

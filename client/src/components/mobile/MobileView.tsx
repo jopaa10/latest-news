@@ -1,4 +1,4 @@
-import NewsList from "../news/NewsList";
+import NewsList from "../news/HomeNewsFeed";
 import LatestNewsWidget from "../news/LatestNewsWidget";
 
 const MobileView = ({ activeTab }: { activeTab: string }) => {

@@ -2,6 +2,7 @@
 @use "./variables" as *;
 @use "./animations" as *;
 @use "./utils" as *;
+@use "./typography" as *;
 
 @font-face {
   font-family: "InterVariable";
@@ -39,7 +40,7 @@ body {
   width: 100%;
   height: 100vh;
   flex-direction: column;
-  background: $background-color;
+  background: $bg-surface;
 }
 
 ul {
@@ -53,6 +54,12 @@ p {
 
 button {
   cursor: pointer;
+  border: none;
+
+  &:focus,
+  &:focus-visible {
+    transition: none;
+  }
 }
 
 a[href],
@@ -69,6 +76,6 @@ textarea:enabled,
     outline: none;
   }
   &:focus-visible {
-    outline: $outline-color solid 2px; // Show outline only when navigating with keyboard (tab)
+    outline: $focus-outline solid 2px; // Show outline only when navigating with keyboard (tab)
   }
 }

@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { verifyEmail } from "../api/auth";
+import { Button } from "./common/Button";
+import "../styles/verifyEmail.scss";
 
 const VerifyEmail = () => {
   const location = useLocation();
@@ -43,35 +45,51 @@ const VerifyEmail = () => {
   }, [token, navigate]);
 
   if (verificationStatus === "pending") {
-    return <div>Verifying your email...</div>;
+    return (
+      <section role="status" aria-live="polite">
+        <h2 id="email-status-heading">Verifying your email...</h2>
+        <p>Please wait while we verify your email.</p>
+      </section>
+    );
   }
 
   if (verificationStatus === "error") {
     return (
-      <div className="error-message">
-        <div>Email verification failed: {errorMessage}</div>
-        <button onClick={() => navigate("/")}>Go to Home</button>
-      </div>
+      <section className="error-message" role="alert" aria-live="assertive">
+        <h2>Email verification failed: {errorMessage}</h2>
+        <Button
+          ariaLabel="go to home"
+          onClick={() => navigate("/")}
+          backgroundColor="#fff"
+          textColor="#000"
+        >
+          Go to Home
+        </Button>
+      </section>
     );
   }
 
   if (verificationStatus === "alreadyVerified") {
     return (
-      <div className="already-verified-message">
-        <h3>Email already verified!</h3>
+      <section
+        className="already-verified-message"
+        role="status"
+        aria-live="polite"
+      >
+        <h2>Email already verified!</h2>
         <p>
           Your email has already been verified. You will be redirected to the
           home page soon.
         </p>
-      </div>
+      </section>
     );
   }
 
   return (
-    <div className="success-message">
-      <h3>Email successfully verified!</h3>
+    <section className="success-message" role="status" aria-live="polite">
+      <h2>Email successfully verified!</h2>
       <p>Redirecting to home...</p>
-    </div>
+    </section>
   );
 };
 

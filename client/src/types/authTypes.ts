@@ -18,3 +18,9 @@ export type AuthContextType = {
   setToken: (token: string | null) => void;
   handleLogout: () => void;
 };
+
+export type DecodedToken = {
+  exp: number;
+  iat: number;
+  id: string;
+};

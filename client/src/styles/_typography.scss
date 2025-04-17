@@ -1,0 +1,19 @@
+@use "./mixins" as *;
+
+.title {
+  text-transform: capitalize;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: -0.15px;
+  margin-top: 10px;
+  margin-bottom: 16px;
+}
+
+.small-title {
+  @include smallTitle;
+}
+
+.category-title {
+  @include categoryTitle;
+}

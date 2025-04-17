@@ -1,8 +1,8 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { fetchLatestArticles } from "../api/nytApi";
-import NewsCard from "../components/news/NewsCard";
 import { useEffect, useRef } from "react";
-import NewsCardSkeleton from "../components/news/NewsCardSkeleton";
+import NewsList from "../components/news/NewsList";
+import Title from "../components/common/Title";
 
 const LatestNews = () => {
   const {
@@ -17,8 +17,20 @@ const LatestNews = () => {
     queryFn: ({ pageParam = 0 }) => fetchLatestArticles({ pageParam }),
     getNextPageParam: (lastPage) => lastPage.nextOffset ?? undefined,
     initialPageParam: 0,
-    refetchInterval: 600000,
-    staleTime: 60 * 1000,
+    refetchInterval: 10 * 60 * 1000,
+    staleTime: 5 * 60 * 1000,
+    retry: (count, error: unknown) => {
+      if (
+        typeof error === "object" &&
+        error !== null &&
+        "response" in error &&
+        (error as { response?: { status?: number } }).response?.status === 429
+      ) {
+        return count < 3;
+      }
+      return false;
+    },
+    retryDelay: (attempt) => Math.min(1000 * 2 ** attempt, 10000),
   });
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -49,27 +61,19 @@ const LatestNews = () => {
 
   return (
     <div className="all-latest-news" ref={containerRef}>
-      <h2>All Latest News</h2>
-
-      {isLoading && (
-        <ul className="article-list news-skeleton">
-          {[...Array(6)].map((index) => (
-            <li key={index} className="article-list__item">
-              <NewsCardSkeleton key={index} />
-            </li>
-          ))}
-        </ul>
-      )}
+      <Title text="All Latest News" />
       {isError && <p>Error loading news.</p>}
 
-      <ul className="article-list">
-        {allArticles.map((article, index) => (
-          <li key={index} className="article-list__item">
-            <NewsCard key={index} article={article} />
-          </li>
-        ))}
-      </ul>
-      {isFetchingNextPage && <p className="loading">Loading more...</p>}
+      <NewsList
+        articles={allArticles}
+        isLoading={isLoading}
+        isFetching={isFetchingNextPage}
+      />
+      {isFetchingNextPage && (
+        <p className="loading" role="status" aria-live="polite">
+          Loading more...
+        </p>
+      )}
     </div>
   );
 };

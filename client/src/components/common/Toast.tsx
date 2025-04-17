@@ -15,7 +15,7 @@ const Toast = ({
       <span>{message}</span>
       <div
         className="custom-toast__background"
-        style={{ animationDuration: `${logoutCountdownDuration * 10}s` }}
+        style={{ animationDuration: `${logoutCountdownDuration * 5}s` }}
       />
     </div>
   );

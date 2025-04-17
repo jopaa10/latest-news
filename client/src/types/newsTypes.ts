@@ -79,3 +79,11 @@ export type NYTArticle = {
   }[];
   short_url: string;
 };
+
+export type NewsListProps = {
+  articles: (NYTArticle | NYTArticleWithId)[];
+  isLoading?: boolean;
+  isFetching?: boolean;
+  skeletonCount?: number;
+  cls?: string;
+};

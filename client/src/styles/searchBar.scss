@@ -28,7 +28,7 @@
   .search-container {
     @include flexCenter;
     justify-content: space-between;
-    background: $background-color-white;
+    background: $bg-white;
     border-radius: 10px;
     padding: 5px;
     max-width: 725px;
@@ -51,7 +51,7 @@
         height: inherit;
 
         &::placeholder {
-          color: $text-color-black-lighter;
+          color: $text-secondary;
           opacity: 0.5;
           font-weight: 400;
           font-size: 15px;
@@ -66,21 +66,18 @@
         border: none;
 
         span {
-          color: $text-color-black;
+          color: $text-primary;
         }
       }
     }
 
-    button {
-      border: none;
-      background: $background-color-red;
-      color: $text-color-white;
-      padding: 5px 10px;
-      border-radius: 6px;
-      cursor: pointer;
-      text-transform: uppercase;
-      height: 40px;
+    .search-btn {
+      max-width: 95px;
+      color: $text-inverse;
+      background: $bg-primary;
+    }
 
+    button {
       @include respond(sm-phone) {
         display: none;
       }
@@ -115,11 +112,11 @@
   }
 
   .black {
-    color: $text-color-black;
+    color: $text-primary;
   }
 
   .red {
-    color: $text-color-red;
+    color: $text-danger;
   }
 }
 
@@ -142,6 +139,10 @@
         top: 2.5rem;
         font-size: 13px;
       }
+    }
+
+    &--navbar-open {
+      position: fixed;
     }
   }
 

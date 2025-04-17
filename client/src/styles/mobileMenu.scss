@@ -25,13 +25,13 @@
     transition: background 0.3s, color 0.3s;
 
     &.active {
-      background-color: rgba(187, 30, 30, 0.1);
-      color: $text-color-red;
+      background-color: $bg-active;
+      color: $text-danger;
       font-weight: 600;
     }
 
     &:not(.active) {
-      color: $text-color-black-lighter;
+      color: $text-secondary;
     }
   }
 }

@@ -3,10 +3,11 @@ import { useEffect, useRef, useState } from "react";
 import ModalWave from "../../assets/icons/ModalWave";
 import { validateEmail } from "../../utils/validateEmailPass";
 import { login, register, resendVerification } from "../../api/auth";
-import { useAuth } from "../../context/AuthContext";
+
 import { ModalProps } from "../../types/LoginTypes";
 import InputField from "../common/InputField";
 import PasswordField from "../common/PasswordField";
+import { useAuth } from "../../hooks/useAuth";
 
 const Modal = ({ closeModal }: ModalProps) => {
   const modalRef = useRef<HTMLFormElement>(null);

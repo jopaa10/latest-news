@@ -10,17 +10,17 @@
   @include flexCenter;
   z-index: 9999;
 
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: $bg-overlay;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
 
 .modal__form {
-  background-color: $background-color;
+  background-color: $bg-surface;
   width: 420px;
   overflow: hidden;
   border-radius: 20px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 15px 35px $shadow-dark;
   margin: 1rem;
 
   @include respond(sm-phone) {
@@ -31,14 +31,14 @@
   h2 {
     text-align: center;
     font-size: 1.75rem;
-    color: $text-color-red;
+    color: $text-danger;
     margin-bottom: 0.5rem;
   }
 
   p {
     text-align: center;
     font-size: 1.25rem;
-    color: $text-color-black-lighter;
+    color: $text-secondary;
     margin-bottom: 0.5rem;
   }
 
@@ -61,22 +61,22 @@
         font-weight: 500;
         margin-left: 1rem;
         margin-bottom: 0.5rem;
-        color: $text-color-black-lighter;
+        color: $text-secondary;
         opacity: 0.5;
         text-transform: capitalize;
       }
 
       input {
         padding: 0.75rem 1rem;
-        border: 2px solid #bb1e1e;
+        border: 2px solid $bg-primary;
         border-radius: 999px;
         outline: none;
         font-size: 1rem;
-        background-color: $background-color-white;
+        background-color: $bg-white;
         transition: border-color 0.3s;
 
         &:focus {
-          border-color: darken(#bb1e1e, 10%);
+          border-color: darken($bg-primary, 10%);
         }
       }
 
@@ -86,7 +86,7 @@
         top: 70%;
         transform: translateY(-50%);
         background: none;
-        color: $text-color-black-lighter;
+        color: $text-secondary;
         border: none;
         cursor: pointer;
         padding: 0;
@@ -120,8 +120,8 @@
 
     button {
       padding: 0.75rem 1rem;
-      background-color: #bb1e1e;
-      color: $text-color-white;
+      background-color: $bg-primary;
+      color: $text-inverse;
       border: none;
       font-size: 1rem;
       font-weight: 600;
@@ -132,7 +132,7 @@
       cursor: pointer;
 
       &:hover {
-        background-color: darken(#bb1e1e, 10%);
+        background-color: darken($bg-primary, 10%);
         transform: scale(1.05);
       }
     }
@@ -147,7 +147,7 @@
       .link-btn {
         background: none;
         border: none;
-        color: $text-color-red;
+        color: $text-danger;
         font-weight: 600;
       }
     }

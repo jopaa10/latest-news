@@ -6,11 +6,11 @@
   top: 2rem;
   left: 50%;
   transform: translateX(-50%);
-  background-color: $background-color;
-  color: $text-color-black;
+  background-color: $bg-surface;
+  color: $text-primary;
   padding: 1rem 2rem;
   border-radius: 0.5rem;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 0px 10px $shadow-color;
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
 
@@ -25,7 +25,7 @@
   }
 
   &__background {
-    background: $background-color-red;
+    background: $bg-primary;
     position: fixed;
     bottom: -2px;
     left: 50%;

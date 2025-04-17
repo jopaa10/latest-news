@@ -1,4 +1,4 @@
-import { NewsArticle, NYTArticle } from "../types/articleTypes";
+import { NewsArticle, NYTArticle } from "../types/newsTypes";
 
 export const transformToNYTArticle = (article: NewsArticle): NYTArticle => {
   return {

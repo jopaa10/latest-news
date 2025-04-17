@@ -1,72 +1,41 @@
-import { useEffect, useState } from "react";
 import NewsCard from "./NewsCard";
-import { fetchArticlesByCategory } from "../../api/nytApi";
-import { useQuery } from "@tanstack/react-query";
 import NewsCardSkeleton from "./NewsCardSkeleton";
-import { NYTArticle } from "../../types/articleTypes";
-import { useIsMobile } from "../../hooks/useIsMobile";
-import LatestNewsWidget from "./LatestNewsWidget";
+import { NewsListProps } from "../../types/newsTypes";
 
-const NewsList = ({ range = "bottom" }: { range?: string }) => {
-  const [articles, setArticles] = useState<NYTArticle[]>([]);
-  const isMobile = useIsMobile();
-
-  const {
-    data: allArticles,
-    isLoading,
-    isError,
-    isFetching,
-  } = useQuery({
-    queryKey: ["articles"],
-    queryFn: () => fetchArticlesByCategory("home"),
-  });
-
-  useEffect(() => {
-    if (!allArticles) return;
-
-    if (!isMobile) {
-      const selected =
-        range === "top" ? allArticles.slice(0, 4) : allArticles.slice(4);
-      setArticles(selected);
-    } else {
-      setArticles(allArticles);
-    }
-  }, [allArticles, range, isMobile]);
-
-  if (isLoading || isFetching) {
+const NewsList = ({
+  articles,
+  isLoading = false,
+  isFetching = false,
+  skeletonCount = 6,
+  cls,
+}: NewsListProps) => {
+  if (isLoading) {
     return (
-      <div className={`news-flex news-skeleton`}>
-        {[...Array(isMobile ? 3 : 6)].map((_, index) => (
-          <NewsCardSkeleton key={index} />
+      <ul
+        className="article-list news-skeleton"
+        aria-busy="true"
+        aria-label="Loading articles"
+      >
+        {[...Array(skeletonCount)].map((_, index) => (
+          <li key={index} className="article-list__item" aria-hidden="true">
+            <NewsCardSkeleton />
+          </li>
         ))}
-      </div>
+      </ul>
     );
   }
 
-  if (isError) {
-    return <p>Error while loading news...</p>;
-  }
-
   return (
-    <>
-      {!isMobile && range === "top" && (
-        <div className="top-flex-wrapper">
-          <ul className="top-news-cards article-list">
-            {articles.map((article, index) => (
-              <NewsCard key={index} article={article} />
-            ))}
-          </ul>
-
-          <LatestNewsWidget />
-        </div>
-      )}
-
-      <ul className="news-flex article-list">
-        {articles.slice(range === "top" ? 4 : 0).map((article) => (
-          <NewsCard article={article} />
-        ))}
-      </ul>
-    </>
+    <ul
+      className={`article-list ${cls}`}
+      role="list"
+      aria-live="polite"
+      aria-busy={isFetching}
+    >
+      {articles.map((article) => (
+        <NewsCard article={article} />
+      ))}
+    </ul>
   );
 };
 
