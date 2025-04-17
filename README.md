@@ -85,13 +85,13 @@ Make sure to update the \`.env\` files in both the \`client\` and \`server\` dir
 
 ### \`/client/.env\`
 
-\`\`\`env
+```env
 VITE_NYT_API_KEY=your_nyt_api_key_here
-\`\`\`
+```
 
 ### \`/server/.env\`
 
-\`\`\`env
+```env
 PORT=5000
 
 # Database configuration
@@ -111,7 +111,7 @@ SMTP_PASS=your_email_app_password
 # Frontend URL (for CORS / verification emails, etc.)
 
 FRONTEND_URL=http://localhost:5173
-\`\`\`
+```
 
 ---
 
@@ -122,11 +122,11 @@ FRONTEND_URL=http://localhost:5173
 
 Everything installs locally — no global packages are required.
 
-\`\`\`bash
+```bash
 npm install
 npm run dev
 
-````
+```
 
 ---
 
@@ -147,7 +147,7 @@ Add your API key to the \`.env\` file in the client directory:
 
 ```bash env
 VITE_NYT_API_KEY=your_api_key_here
-````
+```
 
 ---
 
