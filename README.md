@@ -81,7 +81,7 @@ npm run dev
 
 ## 🛠️ Environment Setup
 
-Make sure to update the `.env` files in both the \`client\` and \`server\` directories. Use \`localhost\` for ports during development.
+Make sure to update the `.env` files in both the `client` and `server` directories. Use `localhost` for ports during development.
 
 ### /client/.env
 
@@ -133,7 +133,7 @@ npm run dev
 ### Deployment Notes
 
 This solution meets the requirement:
-_"The solution should only have to be run with \`npm install\` and \`npm start\` (or \`npm run dev\`) — without global packages."_
+_"The solution should only have to be run with `npm install` and `npm start` (or `npm run dev`) — without global packages."_
 
 ---
 
