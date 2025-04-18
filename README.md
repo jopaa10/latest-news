@@ -46,7 +46,7 @@ While the app supports many accessibility features (semantic HTML, ARIA labels, 
 
 In compliance with WCAG (Web Content Accessibility Guidelines), our application ensures that all interactive elements such as input fields, buttons, and links are accessible to keyboard users and users with disabilities.
 
-- **Focus on Click**: When a user clicks on any interactive element (input fields), it will receive focus, making it clear which element is currently selected.
+- **Focus on Click**: When a user clicks on input fields, it will receive focus, making it clear which element is currently selected.
 - **Tab Key Navigation**: Users can navigate through the interactive elements using the `Tab` key. This allows users to move through the form inputs and buttons in a predictable order, ensuring a seamless experience for keyboard users.
 
 ### Why This Is Important:
