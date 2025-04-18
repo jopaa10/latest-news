@@ -5,7 +5,6 @@ import { JwtPayload } from "jsonwebtoken";
 
 const router = express.Router();
 
-// Get all bookmarks for current user
 router.get(
   "/get-bookmarks",
   authenticateJWT,
@@ -67,7 +66,6 @@ router.post(
   }
 );
 
-// Delete a bookmark
 router.delete("/remove", authenticateJWT, async (req, res): Promise<any> => {
   const { articleId } = req.query;
   const userPayload = req.user as JwtPayload;

@@ -20,7 +20,7 @@ model Bookmark {
 
   user User @relation(fields: [userId], references: [id])
 
-  @@unique([userId, articleId]) //no duplicate bookmars per user
+  @@unique([userId, articleId]) 
 }
 
 model User {
