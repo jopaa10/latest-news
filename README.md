@@ -40,6 +40,22 @@ While the app supports many accessibility features (semantic HTML, ARIA labels, 
 - Semantic HTML structure
 - ARIA labels and roles
 
+## Accessibility Considerations (WCAG)
+
+### Focus Management
+
+In compliance with WCAG (Web Content Accessibility Guidelines), our application ensures that all interactive elements such as input fields, buttons, and links are accessible to keyboard users and users with disabilities.
+
+- **Focus on Click**: When a user clicks on any interactive element (input fields), it will receive focus, making it clear which element is currently selected.
+- **Tab Key Navigation**: Users can navigate through the interactive elements using the `Tab` key. This allows users to move through the form inputs and buttons in a predictable order, ensuring a seamless experience for keyboard users.
+
+### Why This Is Important:
+
+- **WCAG 2.1, Guideline 2.4.3 (Focus Order)**: Ensures that interactive elements are focusable and navigable in a logical order.
+- **WCAG 2.1, Guideline 2.4.7 (Focus Visible)**: Ensures that users can easily see which element is focused, improving usability for keyboard and screen reader users.
+
+By implementing proper focus handling, we ensure that our application is accessible to a broader range of users, including those relying on keyboard navigation and screen readers.
+
 ---
 
 ## 🎨 Design Decisions and Reasoning
@@ -79,7 +95,7 @@ latest-news-app/
 ### 1. Clone the repository
 
 ```bash
-git clone [your-repo-url]
+git clone https://github.com/jopaa10/latest-new
 cd latest-news
 ```
 
