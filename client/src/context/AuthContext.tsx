@@ -15,8 +15,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(!!token);
   const [username, setUsername] = useState("");
   const [showToast, setShowToast] = useState(false);
-  const [showToastMsg, setShowToastMsg] = useState("");
+  const [showToastMsg, setToastMessage] = useState("");
   const [logoutCountdown, setLogoutCountdown] = useState<number | null>(0);
+  const [toastType, setToastType] = useState<
+    "register" | "idle" | "logout" | null
+  >(null);
 
   const navigate = useNavigate();
 
@@ -41,7 +44,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const triggerLogoutWithToast = (message: string) => {
-    setShowToastMsg(message);
+    setToastMessage(message);
+    setToastType("idle");
     setShowToast(true);
     setLogoutCountdown(COUNTDOWN_DURATION);
 
@@ -66,13 +70,36 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       })
       .catch((error) => {
         const authErrors = ["Unauthorized", "UserNotFound", "Forbidden"];
+        const message = error?.message || error?.response?.data?.message;
 
-        if (authErrors.includes(error.message)) {
+        if (authErrors.includes(message)) {
           triggerLogoutWithToast("Session expired. Logging out...");
         } else {
           console.warn("Non-auth error fetching user data:", error);
         }
       });
+  };
+
+  const markAsRegistered = () => {
+    setToastType("register");
+    setToastMessage("Verification email is sent. Please check your inbox.");
+    setShowToast(true);
+
+    let countdown = 10;
+    setLogoutCountdown(countdown);
+
+    const interval = setInterval(() => {
+      countdown -= 1;
+      setLogoutCountdown(countdown);
+
+      if (countdown <= 0) {
+        clearInterval(interval);
+        setShowToast(false);
+        setToastMessage("");
+        setToastType(null);
+        setLogoutCountdown(null);
+      }
+    }, 1000);
   };
 
   useEffect(() => {
@@ -83,7 +110,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     if (isTokenExpired(token)) {
       console.warn("Token expired. Logging out...");
-      setShowToastMsg("Session expired. Logging out...");
+      setToastMessage("Session expired. Logging out...");
+      setToastType("logout");
       setShowToast(true);
       setTimeout(() => {
         handleLogout();
@@ -101,18 +129,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const resetTimers = () => {
       clearTimeout(idleTimeout);
       clearInterval(countdownInterval);
-      setShowToast(false);
-      setLogoutCountdown(null);
+
+      if (toastType === "idle" || toastType === "logout") {
+        setShowToast(false);
+        setLogoutCountdown(null);
+      }
 
       idleTimeout = setTimeout(() => {
         if (token && isTokenExpired(token)) {
-          setShowToastMsg("Session expired. Logging out...");
+          setToastMessage("Session expired. Logging out...");
+          setToastType("logout");
           setShowToast(true);
           setTimeout(() => {
             handleLogout();
           }, 4000);
         } else {
-          setShowToastMsg("No activity. Logging out soon...");
+          setToastMessage("No activity. Logging out soon...");
+          setToastType("idle");
           setShowToast(true);
           setLogoutCountdown(COUNTDOWN_DURATION);
 
@@ -149,6 +182,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setToken: updateToken,
         handleLogout,
         username,
+        markAsRegistered,
       }}
     >
       {children}

@@ -17,6 +17,7 @@ export type AuthContextType = {
   username: string;
   setToken: (token: string | null) => void;
   handleLogout: () => void;
+  markAsRegistered: () => void;
 };
 
 export type DecodedToken = {

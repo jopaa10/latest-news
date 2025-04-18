@@ -14,5 +14,10 @@ main {
     @include respond(tablet) {
       gap: 1rem;
     }
+
+    @include respond(sm-phone) {
+      width: unset;
+      margin: 0 1.6rem;
+    }
   }
 }

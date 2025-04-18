@@ -29,12 +29,12 @@ const VerifyEmail = () => {
           setToken(data.token);
           setVerificationStatus("success");
           setTimeout(() => {
-            navigate("/", { replace: true });
+            navigate("/");
           }, 2000);
         } else if (data?.message === "Email already verified!") {
           setVerificationStatus("alreadyVerified");
           setTimeout(() => {
-            navigate("/", { replace: true });
+            navigate("/");
           }, 2000);
         } else if (data?.error) {
           setVerificationStatus("error");

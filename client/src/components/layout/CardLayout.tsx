@@ -29,6 +29,8 @@ const CardLayout = () => {
 
     const trimmed = searchTerm.trim();
 
+    if (!["/", "/search"].includes(location.pathname)) return;
+
     if (trimmed === "") {
       setDebounced("");
       navigate("/");

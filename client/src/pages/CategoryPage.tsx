@@ -11,8 +11,6 @@ const CategoryPage = () => {
   const { category = "world" } = useParams();
   const { debounced } = useSearch();
 
-  console.log(category);
-
   const {
     data: articles = [],
     isLoading,

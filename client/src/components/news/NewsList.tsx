@@ -9,7 +9,7 @@ const NewsList = ({
   skeletonCount = 6,
   cls,
 }: NewsListProps) => {
-  if (isLoading) {
+  if (isLoading || isFetching) {
     return (
       <ul
         className="article-list news-skeleton"
@@ -32,8 +32,8 @@ const NewsList = ({
       aria-live="polite"
       aria-busy={isFetching}
     >
-      {articles.map((article) => (
-        <NewsCard article={article} />
+      {articles.map((article, index) => (
+        <NewsCard article={article} key={index} />
       ))}
     </ul>
   );

@@ -149,34 +149,38 @@ const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
         >
           <img src={image || fallbackImage} alt={altText} />
           <div className="news-content">
-            <div className="heading">
-              <p
-                className="category title-category"
-                aria-label={`Article category: ${article.section}`}
-              >
-                {article.section}
-              </p>
-              <h2 className="title-medium">{article.title}</h2>
-              {isLoggedIn && (
-                <button
-                  className="bookmark-btn"
-                  aria-label={isBookmarked ? "Remove bookmark" : "Add bookmark"}
-                  aria-pressed={isBookmarked}
-                  onClick={handleBookmarkToggleWithAnimation}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      handleBookmarkToggleWithAnimation(e);
-                    }
-                  }}
+            <div className={`heading ${isLoggedIn ? "heading__bookmark" : ""}`}>
+              <div className="category-container">
+                <p
+                  className="category title-category"
+                  aria-label={`Article category: ${article.section}`}
                 >
-                  {isBookmarked ? (
-                    <Bookmark size={22} />
-                  ) : (
-                    <BookmarkBorder size={22} />
-                  )}
-                </button>
-              )}
+                  {article.section}
+                </p>
+                {isLoggedIn && (
+                  <button
+                    className="bookmark-btn"
+                    aria-label={
+                      isBookmarked ? "Remove bookmark" : "Add bookmark"
+                    }
+                    aria-pressed={isBookmarked}
+                    onClick={handleBookmarkToggleWithAnimation}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        handleBookmarkToggleWithAnimation(e);
+                      }
+                    }}
+                  >
+                    {isBookmarked ? (
+                      <Bookmark size={20} />
+                    ) : (
+                      <BookmarkBorder size={20} />
+                    )}
+                  </button>
+                )}
+              </div>
+              <h2 className="title-medium">{article.title}</h2>
             </div>
             <p
               className="author title-small"

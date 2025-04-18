@@ -71,7 +71,7 @@ const NewsDetail = () => {
           <p className="title-medium">{article.abstract}</p>
         </>
       ) : (
-        <p className="title-small">Article not found.</p>
+        <p className="title-medium">Article not found.</p>
       )}
     </article>
   );

@@ -26,7 +26,7 @@ const Modal = ({ closeModal }: ModalProps) => {
     special: false,
   });
 
-  const { setToken } = useAuth();
+  const { setToken, markAsRegistered } = useAuth();
 
   const handleClickOutside = (e: MouseEvent) => {
     if (
@@ -95,6 +95,9 @@ const Modal = ({ closeModal }: ModalProps) => {
         : await login(body);
 
       if (ok) {
+        if (isRegister) {
+          markAsRegistered();
+        }
         setToken(data.token);
         closeModal();
       } else {
@@ -134,8 +137,8 @@ const Modal = ({ closeModal }: ModalProps) => {
   const handleOnChange =
     (setter: React.Dispatch<React.SetStateAction<string>>) =>
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      setter(e.target.value); // updates state
-      setError(null); // clears the error
+      setter(e.target.value);
+      setError(null);
     };
 
   useEffect(() => {
