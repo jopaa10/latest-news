@@ -37,6 +37,8 @@ const VerifyEmail = () => {
             navigate("/");
           }, 2000);
         } else if (data?.error) {
+          localStorage.removeItem("token");
+          setToken("");
           setVerificationStatus("error");
           setErrorMessage(data.error || "Something went wrong");
         }

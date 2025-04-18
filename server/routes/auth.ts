@@ -19,7 +19,6 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Register route
 router.post("/register", async (req: Request, res: Response): Promise<any> => {
   const { name, surname, email, password } = req.body;
 
@@ -57,7 +56,7 @@ router.post("/register", async (req: Request, res: Response): Promise<any> => {
       data: {
         token: verificationToken,
         userId: newUser.id,
-        expiresAt: new Date(Date.now() + 3600000),
+        expiresAt: new Date(Date.now() + 30 * 60 * 1000),
       },
     });
 
@@ -71,7 +70,7 @@ router.post("/register", async (req: Request, res: Response): Promise<any> => {
         <h2>Welcome to MyNews!</h2>
         <p>Click the link below to verify your email address:</p>
         <a href="${verificationUrl}">${verificationUrl}</a>
-        <p>This link will expire in 1 hour.</p>
+        <p>This link will expire in 30 minutes.</p>
       `,
     };
 
@@ -91,7 +90,6 @@ router.post("/register", async (req: Request, res: Response): Promise<any> => {
   }
 });
 
-// Login route
 router.post("/login", async (req: Request, res: Response): Promise<any> => {
   const { email, password } = req.body;
 
@@ -150,7 +148,6 @@ router.get(
   }
 );
 
-// Verify email route
 router.get(
   "/verify-email",
   async (req: Request, res: Response): Promise<any> => {
@@ -161,7 +158,6 @@ router.get(
     }
 
     try {
-      // Find the verification token in the database
       const verificationRecord = await prisma.verificationToken.findUnique({
         where: { token: token as string },
         include: { user: true },
@@ -175,60 +171,31 @@ router.get(
         return res.status(200).json({ message: "Email already verified!" });
       }
 
-      // Token expired
       if (new Date() > verificationRecord.expiresAt) {
         return res.status(400).json({ error: "Token has expired" });
       }
-
-      // if (!verificationRecord.user.verified) {
-      //   // await prisma.user.update({
-      //   //   where: { id: verificationRecord.userId },
-      //   //   data: { verified: true },
-      //   // });
-
-      //   // await prisma.verificationToken.update({
-      //   //   where: { token: token as string },
-      //   //   data: { verified: true },
-      //   // });
-
-      //   // return res
-      //   //   .status(200)
-      //   //   .json({ message: "Email successfully verified!" });
-      //   await prisma.user.update({
-      //     where: { id: verificationRecord.userId },
-      //     data: { verified: true },
-      //   });
-      // }
 
       await prisma.user.update({
         where: { id: verificationRecord.userId },
         data: { verified: true },
       });
 
-      // Mark the token as used
       await prisma.verificationToken.update({
         where: { token: token as string },
         data: { verified: true },
       });
 
-      // Generate JWT token for the user after successful verification
-      const user = verificationRecord.user; // User data
+      const user = verificationRecord.user;
       const jwtToken = jwt.sign(
-        { id: user.id, name: user.name }, // Payload of the JWT token
-        process.env.JWT_SECRET as string, // Secret to sign the JWT
-        { expiresIn: "2h" } // Token expiration time
+        { id: user.id, name: user.name },
+        process.env.JWT_SECRET as string,
+        { expiresIn: "2h" }
       );
 
-      // Return the JWT token and success message
       return res.status(200).json({
         message: "Email successfully verified!",
-        token: jwtToken, // Send the generated JWT token
+        token: jwtToken,
       });
-
-      // Fallback: user is verified but token was not marked
-      //  return res.status(200).json({ message: "Email already verified!" });
-
-      // return res.status(200).json({ message: "Email verified successfully!" });
     } catch (err: any) {
       return res.status(500).json({ error: err.message });
     }
@@ -257,19 +224,23 @@ router.post(
         return res.status(400).json({ error: "Email is already verified" });
       }
 
-      // Optional: Delete old verification tokens
       await prisma.verificationToken.deleteMany({
         where: { userId: user.id },
       });
 
-      // Create new secure token
+      const jwtToken = jwt.sign(
+        { userId: user.id },
+        process.env.JWT_SECRET as string,
+        { expiresIn: "2h" }
+      );
+
       const verificationToken = crypto.randomBytes(32).toString("hex");
 
       await prisma.verificationToken.create({
         data: {
           token: verificationToken,
           userId: user.id,
-          expiresAt: new Date(Date.now() + 60 * 60 * 1000), // 1 hour
+          expiresAt: new Date(Date.now() + 30 * 60 * 1000),
         },
       });
 
@@ -283,7 +254,7 @@ router.post(
         <h2>Welcome back to MyNews!</h2>
         <p>Click the link below to verify your email address:</p>
         <a href="${verificationUrl}">${verificationUrl}</a>
-        <p>This link will expire in 1 hour.</p>
+        <p>This link will expire in 30 minutes.</p>
       `,
       };
 
@@ -291,6 +262,7 @@ router.post(
 
       return res.status(200).json({
         message: "Verification email sent again. Please check your inbox.",
+        token: jwtToken,
       });
     } catch (error) {
       console.error("Error resending verification email:", error);

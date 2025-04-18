@@ -7,7 +7,6 @@ import { AuthContext } from "../hooks/useAuth";
 import { isTokenExpired } from "../utils/isTokenExpired";
 import { COUNTDOWN_DURATION, IDLE_TIMEOUT } from "../utils/constants";
 
-// Create the AuthProvider to wrap the App and provide the context
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [token, setToken] = useState<string | null>(
     localStorage.getItem("token")
@@ -23,7 +22,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const navigate = useNavigate();
 
-  // Update token state and localStorage when token changes
   const updateToken = (newToken: string | null) => {
     if (newToken) {
       localStorage.setItem("token", newToken);
@@ -34,7 +32,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setIsLoggedIn(!!newToken);
   };
 
-  // Handle logout
   const handleLogout = () => {
     localStorage.removeItem("token");
     updateToken(null);

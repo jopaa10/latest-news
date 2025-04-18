@@ -3,7 +3,7 @@ import type { Config } from "jest";
 
 const config: Config = {
   rootDir: "./",
-  setupFilesAfterEnv: ["<rootDir>/src/tests/jest.setup.ts"],
+  setupFilesAfterEnv: ["<rootDir>/src/test/jest.setup.ts"],
   transform: {
     "^.+.tsx?$": "ts-jest",
   },
@@ -11,6 +11,11 @@ const config: Config = {
   preset: "ts-jest",
   moduleNameMapper: {
     "\\.scss$": "identity-obj-proxy",
+  },
+  globals: {
+    "ts-jest": {
+      tsconfig: "tsconfig.test.json",
+    },
   },
 };
 export default config;
