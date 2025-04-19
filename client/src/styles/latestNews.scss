@@ -158,6 +158,7 @@
   padding: 13px 0;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 
   .time-skeleton,
   .title-skeleton {

@@ -80,14 +80,13 @@ const LatestNewsWidget = () => {
         aria-labelledby="latest-news-heading"
         ref={scrollRef}
       >
-        {isLoading ||
-          (isFetching && (
-            <div className="news-skeleton" aria-busy="true" aria-live="polite">
-              {[...Array(LIMIT)].map((_, index) => (
-                <LatestNewsSkeleton key={index} />
-              ))}
-            </div>
-          ))}
+        {(isLoading || isFetching) && (
+          <div className="news-skeleton" aria-busy="true" aria-live="polite">
+            {[...Array(LIMIT)].map((_, index) => (
+              <LatestNewsSkeleton key={index} />
+            ))}
+          </div>
+        )}
         {isError && <p role="alert">Error loading latest news.</p>}
 
         <ul className="news-list">
