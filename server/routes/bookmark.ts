@@ -26,7 +26,6 @@ router.get(
   }
 );
 
-// Add a new bookmark
 router.post(
   "/add-bookmark",
   authenticateJWT,

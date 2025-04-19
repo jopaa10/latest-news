@@ -44,7 +44,12 @@ const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
     if (!category) {
       const currentPath = window.location.pathname;
       const pathParts = currentPath.split("/");
+
       category = pathParts[1];
+    }
+
+    if (category.includes("/")) {
+      category = category.split("/")[0];
     }
 
     navigate(`/${category}/article/${slugify(article.title)}`);
@@ -73,7 +78,6 @@ const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
       ? "Removing bookmark..."
       : "Adding bookmark...";
 
-    // Show instant feedback
     setToastMessage(optimisticMessage);
     setToastDuration(1);
     setShowToast(true);
