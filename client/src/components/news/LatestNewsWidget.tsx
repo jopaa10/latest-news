@@ -30,17 +30,12 @@ const LatestNewsWidget = () => {
     initialPageParam: 0,
     refetchInterval: 10 * 60 * 1000,
     staleTime: 5 * 60 * 1000,
-    retry: (count, error: unknown) => {
-      if (
-        typeof error === "object" &&
-        error !== null &&
-        "response" in error &&
-        (error as { response?: { status?: number } }).response?.status === 429
-      ) {
-        return count < 3;
-      }
-      return false;
-    },
+    retry: (count, error: unknown) =>
+      typeof error === "object" &&
+      error !== null &&
+      "response" in error &&
+      (error as { response?: { status?: number } }).response?.status === 429 &&
+      count < 3,
     retryDelay: (attempt) => Math.min(1000 * 2 ** attempt, 10000),
   });
 
@@ -52,13 +47,9 @@ const LatestNewsWidget = () => {
 
     const handleScroll = async () => {
       const { scrollTop, scrollHeight, clientHeight } = scrollContainer;
+      const nearBottom = scrollHeight - scrollTop - clientHeight < 100;
 
-      const bottomOffset = 100;
-
-      const isNearBottom =
-        scrollHeight - scrollTop - clientHeight < bottomOffset;
-
-      if (isNearBottom && hasNextPage && !isFetchingNextPage) {
+      if (nearBottom && hasNextPage && !isFetchingNextPage) {
         fetchNextPage();
       }
     };
@@ -69,6 +60,12 @@ const LatestNewsWidget = () => {
       scrollContainer.removeEventListener("scroll", handleScroll);
     };
   }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
+  const navigateToArticle = (article: NYTArticle) => {
+    navigate(
+      `/${article.section.toLowerCase()}/article/${slugify(article.title)}`
+    );
+  };
 
   return (
     <div className="latest-news-widget">
@@ -102,21 +99,11 @@ const LatestNewsWidget = () => {
                   <button
                     key={index}
                     className="news-item"
-                    onClick={() =>
-                      navigate(
-                        `/${item.section.toLowerCase()}/article/${slugify(
-                          item.title
-                        )}`
-                      )
-                    }
+                    onClick={() => navigateToArticle(item)}
                     onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") {
+                      if (["Enter", " "].includes(e.key)) {
                         e.preventDefault();
-                        navigate(
-                          `/${item.section.toLowerCase()}/article/${slugify(
-                            item.title
-                          )}`
-                        );
+                        navigateToArticle(item);
                       }
                     }}
                     aria-label={`Read article: ${item.title}`}

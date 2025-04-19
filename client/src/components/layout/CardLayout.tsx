@@ -1,13 +1,16 @@
+import { useEffect, useState } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+
 import "../../styles/cardLayout.scss";
-import { Outlet, useNavigate } from "react-router-dom";
+import { AuthProvider } from "../../context/AuthContext";
+import { SearchContext } from "../../context/SearchContext";
+
+import Hero from "../common/Hero";
 import Sidebar from "../navbar/Sidebar";
 import SearchBar from "../search/SearchBar";
 import Separator from "../../assets/icons/Separator";
-import { useEffect, useState } from "react";
-import { SearchContext } from "../../context/SearchContext";
-import Hero from "../common/Hero";
 import MobileNavbar from "../mobile/MobileNavbar";
-import { AuthProvider } from "../../context/AuthContext";
+
 import { useIsMobile } from "../../hooks/useIsMobile";
 
 const CardLayout = () => {
@@ -15,6 +18,7 @@ const CardLayout = () => {
   const [debounced, setDebounced] = useState("");
   const isMobile = useIsMobile();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSearchClick = () => {
     const trimmed = searchTerm.trim();
@@ -28,8 +32,9 @@ const CardLayout = () => {
     if (!isMobile) return;
 
     const trimmed = searchTerm.trim();
+    const isHomeOrSearch = ["/", "/search"].includes(location.pathname);
 
-    if (!["/", "/search"].includes(location.pathname)) return;
+    if (!isHomeOrSearch) return;
 
     if (trimmed === "") {
       setDebounced("");
@@ -46,7 +51,7 @@ const CardLayout = () => {
     }, 300);
 
     return () => clearTimeout(handler);
-  }, [searchTerm, isMobile]);
+  }, [searchTerm, isMobile, location.pathname, navigate]);
 
   return (
     <AuthProvider>

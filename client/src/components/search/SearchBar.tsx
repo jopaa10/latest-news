@@ -7,10 +7,15 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../common/Button";
 import { useEffect } from "react";
 
-function SearchBar({ isChecked = false }: { isChecked?: boolean }) {
+type SearchBarProps = {
+  isChecked?: boolean;
+};
+
+function SearchBar({ isChecked = false }: SearchBarProps) {
   const { searchTerm, setSearchTerm, handleSearchClick } = useSearch();
   const navigate = useNavigate();
   const location = useLocation();
+  const isHomePage = location.pathname === "/";
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -20,8 +25,7 @@ function SearchBar({ isChecked = false }: { isChecked?: boolean }) {
   };
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSearchTerm(value);
+    setSearchTerm(e.target.value);
   };
 
   const handleClearSearch = () => {
@@ -36,10 +40,10 @@ function SearchBar({ isChecked = false }: { isChecked?: boolean }) {
   };
 
   useEffect(() => {
-    if (location.pathname === "/") {
+    if (isHomePage) {
       setSearchTerm("");
     }
-  }, [location.pathname, setSearchTerm]);
+  }, [isHomePage, setSearchTerm]);
 
   return (
     <>

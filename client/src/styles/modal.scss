@@ -1,5 +1,6 @@
 @use "./variables" as *;
 @use "./mixins" as *;
+@use "sass:color";
 
 .modal {
   position: fixed;
@@ -76,7 +77,7 @@
         transition: border-color 0.3s;
 
         &:focus {
-          border-color: darken($bg-primary, 10%);
+          border-color: color.adjust($bg-primary, $lightness: -10%);
         }
       }
 
@@ -132,7 +133,7 @@
       cursor: pointer;
 
       &:hover {
-        background-color: darken($bg-primary, 10%);
+        background-color: color.adjust($bg-primary, $lightness: -10%);
         transform: scale(1.05);
       }
     }

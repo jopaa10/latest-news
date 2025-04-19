@@ -27,8 +27,6 @@ describe("SearchBar", () => {
   it("should call handleSearchClick when search button is clicked", () => {
     render(
       <BrowserRouter>
-        {" "}
-        {/* Wrap in BrowserRouter */}
         <SearchBar />
       </BrowserRouter>
     );
@@ -42,8 +40,6 @@ describe("SearchBar", () => {
   it("should reset search term on navigation", () => {
     render(
       <BrowserRouter>
-        {" "}
-        {/* Wrap in BrowserRouter */}
         <SearchBar />
       </BrowserRouter>
     );

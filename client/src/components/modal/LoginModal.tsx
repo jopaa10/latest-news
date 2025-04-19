@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import ModalWave from "../../assets/icons/ModalWave";
 import { validateEmail } from "../../utils/validateEmailPass";
 import { login, register, resendVerification } from "../../api/auth";
-
 import { ModalProps } from "../../types/LoginTypes";
 import InputField from "../common/InputField";
 import PasswordField from "../common/PasswordField";
@@ -15,10 +14,13 @@ const Modal = ({ closeModal }: ModalProps) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    surname: "",
+    email: "",
+    password: "",
+  });
+
   const [passwordRules, setPasswordRules] = useState({
     length: false,
     upper: false,
@@ -29,11 +31,7 @@ const Modal = ({ closeModal }: ModalProps) => {
   const { setToken, markAsRegistered } = useAuth();
 
   const handleClickOutside = (e: MouseEvent) => {
-    if (
-      modalRef.current &&
-      e.target instanceof Node &&
-      !modalRef.current.contains(e.target)
-    ) {
+    if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
       closeModal();
     }
   };
@@ -44,35 +42,26 @@ const Modal = ({ closeModal }: ModalProps) => {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
     setError(null);
+  };
 
+  const validateForm = () => {
+    const { email, password, name, surname } = formData;
     if (!email || !password) {
-      setError("Email and password are required.");
-      setLoading(false);
-      return;
+      return "Email and password are required.";
     }
-
     if (isRegister && (!name || !surname)) {
-      setError("Name and surname are required for registration.");
-      setLoading(false);
-      return;
+      return "Name and surname are required for registration.";
     }
-
     if (!validateEmail(email)) {
-      setError("Please enter a valid email address.");
-      setLoading(false);
-      return;
+      return "Please enter a valid email address.";
     }
-
     if (password.length < 8) {
-      setError("Password must be at least 8 characters long.");
-      setLoading(false);
-      return;
+      return "Password must be at least 8 characters long.";
     }
-
     if (
       isRegister &&
       (!passwordRules.length ||
@@ -80,11 +69,23 @@ const Modal = ({ closeModal }: ModalProps) => {
         !passwordRules.lower ||
         !passwordRules.special)
     ) {
-      setError("Password must meet all requirements.");
-      setLoading(false);
+      return "Password must meet all requirements.";
+    }
+    return null;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const errorMessage = validateForm();
+    if (errorMessage) {
+      setError(errorMessage);
       return;
     }
 
+    setLoading(true);
+
+    const { email, password, name, surname } = formData;
     const body = isRegister
       ? { name, surname, email, password }
       : { email, password };
@@ -95,58 +96,42 @@ const Modal = ({ closeModal }: ModalProps) => {
         : await login(body);
 
       if (ok) {
-        if (isRegister) {
-          markAsRegistered();
-        }
         setToken(data.token);
+        if (isRegister) markAsRegistered();
         closeModal();
+      } else if (data.error === "Email not verified") {
+        setError("Email not verified. Sending new verification email...");
+        await resendVerification(data.token, email);
+        setError("Verification email sent. Please check your inbox.");
+        setTimeout(() => resetForm(), 5000);
       } else {
-        if (data.error === "Email not verified") {
-          setError("Email not verified. Sending new verification email...");
-
-          await resendVerification(data.token, email);
-
-          setError(
-            "Verification email has been sent. Please check your inbox."
-          );
-
-          setTimeout(() => {
-            setEmail("");
-            setPassword("");
-            setError(null);
-            setPasswordRules({
-              length: false,
-              upper: false,
-              lower: false,
-              special: false,
-            });
-          }, 5000);
-        } else {
-          setError(data.error || "Something went wrong");
-        }
+        setError(data.error || "Something went wrong.");
       }
-    } catch (error) {
-      console.log(error);
-
-      setError("Failed to connect to the server: ");
+    } catch (err) {
+      console.error(err);
+      setError("Failed to connect to the server.");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleOnChange =
-    (setter: React.Dispatch<React.SetStateAction<string>>) =>
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setter(e.target.value);
-      setError(null);
-    };
+  const resetForm = () => {
+    setFormData({ name: "", surname: "", email: "", password: "" });
+    setPasswordRules({
+      length: false,
+      upper: false,
+      lower: false,
+      special: false,
+    });
+    setError(null);
+  };
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     document.addEventListener("keydown", handleKeydown);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
-      document.addEventListener("keydown", handleKeydown);
+      document.removeEventListener("keydown", handleKeydown);
     };
   }, []);
 
@@ -157,23 +142,16 @@ const Modal = ({ closeModal }: ModalProps) => {
       aria-labelledby="modalTitle"
       aria-hidden="false"
       aria-modal="true"
-      aria-label="Login/registration modal"
     >
-      <form
-        action={""}
-        method="POST"
-        className="modal__form"
-        ref={modalRef}
-        onSubmit={handleSubmit}
-      >
+      <form ref={modalRef} className="modal__form" onSubmit={handleSubmit}>
         <ModalWave />
-
         <h2>{isRegister ? "Sign Up" : "Login"}</h2>
         <p>
           {isRegister
             ? "Create an account to save your favorite articles"
             : "Login and save favorite articles"}
         </p>
+
         <div className="modal__form__fields">
           {isRegister && (
             <>
@@ -181,16 +159,15 @@ const Modal = ({ closeModal }: ModalProps) => {
                 id="name"
                 label="Name"
                 name="name"
-                value={name}
-                onChange={handleOnChange(setName)}
+                value={formData.name}
+                onChange={handleChange}
               />
-
               <InputField
                 id="surname"
                 label="Surname"
                 name="surname"
-                value={surname}
-                onChange={handleOnChange(setSurname)}
+                value={formData.surname}
+                onChange={handleChange}
               />
             </>
           )}
@@ -200,19 +177,19 @@ const Modal = ({ closeModal }: ModalProps) => {
             label="Email"
             type="email"
             name="email"
-            value={email}
-            onChange={handleOnChange(setEmail)}
+            value={formData.email}
+            onChange={handleChange}
           />
 
           <PasswordField
             id="password"
             label="Password"
-            value={password}
+            value={formData.password}
             onChange={(val) => {
-              setPassword(val);
+              setFormData({ ...formData, password: val });
               setError(null);
             }}
-            showChecklist={isRegister && password.length > 0}
+            showChecklist={isRegister && formData.password.length > 0}
             setPasswordRules={setPasswordRules}
             passwordRules={passwordRules}
           />
@@ -221,12 +198,12 @@ const Modal = ({ closeModal }: ModalProps) => {
             <p>
               {isRegister
                 ? "Already have an account?"
-                : "Don’t have an account?"}{" "}
+                : "Don’t have an account?"}
             </p>
             <button
               type="button"
               className="link-btn"
-              onClick={() => setIsRegister(!isRegister)}
+              onClick={() => setIsRegister((prev) => !prev)}
             >
               {isRegister ? "Login" : "Sign up"}
             </button>

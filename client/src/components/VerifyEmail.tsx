@@ -4,65 +4,80 @@ import { verifyEmail } from "../api/auth";
 import { Button } from "./common/Button";
 import "../styles/verifyEmail.scss";
 import { useAuth } from "../hooks/useAuth";
+import { Status } from "../types/emailTypes";
+import { REDIRECT_DELAY } from "../utils/constants";
+
+const statusMessages: Record<Status, { title: string; description: string }> = {
+  pending: {
+    title: "Verifying your email...",
+    description: "Please wait while we verify your email.",
+  },
+  success: {
+    title: "Email successfully verified!",
+    description: "Redirecting to home...",
+  },
+  alreadyVerified: {
+    title: "Email already verified!",
+    description:
+      "Your email has already been verified. You will be redirected to the home page soon.",
+  },
+  error: {
+    title: "Email verification failed",
+    description: "Failed to verify email. Please try again later.",
+  },
+};
 
 const VerifyEmail = () => {
   const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const token = searchParams.get("token");
+  const token = new URLSearchParams(location.search).get("token");
   const navigate = useNavigate();
-  const [verificationStatus, setVerificationStatus] = useState<
-    "pending" | "success" | "error" | "alreadyVerified"
-  >("pending");
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  const hasVerified = useRef(false);
   const { setToken } = useAuth();
+
+  const [status, setStatus] = useState<Status>("pending");
+  const [errorMessage, setErrorMessage] = useState("");
+  const hasVerified = useRef(false);
+
+  const handleVerificationResponse = async () => {
+    try {
+      const data = await verifyEmail(token!);
+
+      if (data?.message === "Email successfully verified!") {
+        localStorage.setItem("token", data.token);
+        setToken(data.token);
+        setStatus("success");
+        setTimeout(() => navigate("/"), REDIRECT_DELAY);
+      } else if (data?.message === "Email already verified!") {
+        setStatus("alreadyVerified");
+        setTimeout(() => navigate("/"), REDIRECT_DELAY);
+      } else {
+        throw new Error(data?.error || "Unknown error");
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message || statusMessages.error.description);
+      } else {
+        setErrorMessage(statusMessages.error.description);
+      }
+      localStorage.removeItem("token");
+      setToken("");
+      setStatus("error");
+    }
+  };
 
   useEffect(() => {
     if (!token || hasVerified.current) return;
-
     hasVerified.current = true;
+    handleVerificationResponse();
+  }, [token]);
 
-    verifyEmail(token)
-      .then((data) => {
-        if (data?.message === "Email successfully verified!") {
-          localStorage.setItem("token", data.token);
-          setToken(data.token);
-          setVerificationStatus("success");
-          setTimeout(() => {
-            navigate("/");
-          }, 2000);
-        } else if (data?.message === "Email already verified!") {
-          setVerificationStatus("alreadyVerified");
-          setTimeout(() => {
-            navigate("/");
-          }, 2000);
-        } else if (data?.error) {
-          localStorage.removeItem("token");
-          setToken("");
-          setVerificationStatus("error");
-          setErrorMessage(data.error || "Something went wrong");
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-        setVerificationStatus("error");
-        setErrorMessage("Failed to verify email. Please try again later.");
-      });
-  }, [token, navigate]);
+  const { title, description } = statusMessages[status];
 
-  if (verificationStatus === "pending") {
-    return (
-      <section role="status" aria-live="polite">
-        <h2 id="email-status-heading">Verifying your email...</h2>
-        <p>Please wait while we verify your email.</p>
-      </section>
-    );
-  }
-
-  if (verificationStatus === "error") {
+  if (status === "error") {
     return (
       <section className="error-message" role="alert" aria-live="assertive">
-        <h2>Email verification failed: {errorMessage}</h2>
+        <h2>
+          {title}: {errorMessage}
+        </h2>
         <Button
           ariaLabel="go to home"
           onClick={() => navigate("/")}
@@ -75,26 +90,10 @@ const VerifyEmail = () => {
     );
   }
 
-  if (verificationStatus === "alreadyVerified") {
-    return (
-      <section
-        className="already-verified-message"
-        role="status"
-        aria-live="polite"
-      >
-        <h2>Email already verified!</h2>
-        <p>
-          Your email has already been verified. You will be redirected to the
-          home page soon.
-        </p>
-      </section>
-    );
-  }
-
   return (
-    <section className="success-message" role="status" aria-live="polite">
-      <h2>Email successfully verified!</h2>
-      <p>Redirecting to home...</p>
+    <section className={`${status}-message`} role="status" aria-live="polite">
+      <h2>{title}</h2>
+      <p>{description}</p>
     </section>
   );
 };

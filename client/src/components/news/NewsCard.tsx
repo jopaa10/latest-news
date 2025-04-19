@@ -17,9 +17,12 @@ const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { data: bookmarks = [] } = useBookmarks();
-  const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
-  const [toastDuration, setToastDuration] = useState(0);
+
+  const [toast, setToast] = useState({
+    show: false,
+    message: "",
+    duration: 0,
+  });
 
   const articleId = article.articleId || article.uri || article.url;
 
@@ -30,29 +33,25 @@ const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
   const image =
     article.multimedia?.[1]?.url ||
     article?.multimedia?.[0]?.url ||
-    article.image;
+    article.image ||
+    fallbackImage;
 
   const altText =
     article?.multimedia?.[1]?.caption || "No image available for this article";
+
   const author =
     article?.byline?.replace(/^By\s+/i, "") || article.author || "";
 
-  const handleClick = (e: React.MouseEvent | React.KeyboardEvent) => {
-    e.stopPropagation();
-    let category = article.section.toLowerCase();
-
-    if (!category) {
-      const currentPath = window.location.pathname;
-      const pathParts = currentPath.split("/");
-
-      category = pathParts[1];
-    }
-
-    if (category.includes("/")) {
-      category = category.split("/")[0];
-    }
+  const openArticle = () => {
+    let category = article.section?.toLowerCase() || "news";
+    if (category.includes("/")) category = category.split("/")[0];
 
     navigate(`/${category}/article/${slugify(article.title)}`);
+  };
+
+  const showToast = (message: string, duration: number) => {
+    setToast({ show: true, message, duration });
+    setTimeout(() => setToast((t) => ({ ...t, show: false })), duration * 1000);
   };
 
   const addBookmarkMutation = useMutation({
@@ -74,47 +73,22 @@ const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
   ) => {
     e.stopPropagation();
 
-    const optimisticMessage = isBookmarked
+    const optimistic = isBookmarked
       ? "Removing bookmark..."
       : "Adding bookmark...";
-
-    setToastMessage(optimisticMessage);
-    setToastDuration(1);
-    setShowToast(true);
-
-    setTimeout(() => {
-      setShowToast(false);
-    }, 1500);
-
-    const start = Date.now();
+    showToast(optimistic, 1);
 
     try {
-      let message = "";
+      const start = Date.now();
       if (isBookmarked) {
         await removeBookmarkMutation.mutateAsync();
-        message = "Bookmark removed";
+        showToast("Bookmark removed", (Date.now() - start) / 1000);
       } else {
         await addBookmarkMutation.mutateAsync();
-        message = "Bookmark added";
+        showToast("Bookmark added", (Date.now() - start) / 1000);
       }
-
-      const duration = (Date.now() - start) / 1000;
-
-      setToastMessage(message);
-      setToastDuration(duration);
-      setShowToast(true);
-
-      setTimeout(() => {
-        setShowToast(false);
-      }, duration * 500);
-    } catch (err) {
-      console.log(err);
-      setToastMessage("Something went wrong");
-      setShowToast(true);
-
-      setTimeout(() => {
-        setShowToast(false);
-      }, 1000);
+    } catch {
+      showToast("Something went wrong", 1);
     }
   };
 
@@ -122,36 +96,38 @@ const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
     e: React.MouseEvent | React.KeyboardEvent
   ) => {
     e.stopPropagation();
-    const button = e.currentTarget;
-    button.classList.add("clicked");
-    setTimeout(() => {
-      button.classList.remove("clicked");
-    }, 500);
+    const btn = e.currentTarget as HTMLElement;
+    btn.classList.add("clicked");
+    setTimeout(() => btn.classList.remove("clicked"), 500);
     handleBookmarkToggle(e);
   };
+
+  const handleKeyPress =
+    (handler: (e: React.KeyboardEvent | React.MouseEvent) => void) =>
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handler(e);
+      }
+    };
 
   return (
     <>
       <Toast
-        showToast={showToast}
-        message={toastMessage}
-        logoutCountdownDuration={toastDuration}
+        showToast={toast.show}
+        message={toast.message}
+        logoutCountdownDuration={toast.duration}
       />
       <li key={article.articleId} className="article-list__item">
         <div
           role="button"
           tabIndex={0}
           className="news-card"
-          onClick={(e) => handleClick(e)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              handleClick(e);
-            }
-          }}
+          onClick={openArticle}
+          onKeyDown={handleKeyPress(openArticle)}
           aria-label={`Read article titled ${article.title}`}
         >
-          <img src={image || fallbackImage} alt={altText} />
+          <img src={image} alt={altText} />
           <div className="news-content">
             <div className={`heading ${isLoggedIn ? "heading__bookmark" : ""}`}>
               <div className="category-container">
@@ -169,12 +145,9 @@ const NewsCard = ({ article }: { article: NYTArticleWithId }) => {
                     }
                     aria-pressed={isBookmarked}
                     onClick={handleBookmarkToggleWithAnimation}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault();
-                        handleBookmarkToggleWithAnimation(e);
-                      }
-                    }}
+                    onKeyDown={handleKeyPress(
+                      handleBookmarkToggleWithAnimation
+                    )}
                   >
                     {isBookmarked ? (
                       <Bookmark size={20} />

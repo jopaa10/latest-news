@@ -127,7 +127,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       if (isTokenExpired(token)) {
         logoutWithCountdown("Session expired. Logging out...");
       }
-    }, 15000);
+    }, 30 * 60 * 1000);
 
     if (isTokenExpired(token)) {
       logoutWithCountdown("Session expired. Logging out...");

@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { searchArticleByTitle } from "../../api/nytApi";
 import { slugify } from "../../utils/createSlug";
 import { NewsArticle } from "../../types/newsTypes";
+import NewsDetailsSkeleton from "./NewsDetailsSkeleton";
 
 const NewsDetail = () => {
   const { slug } = useParams();
@@ -27,18 +28,7 @@ const NewsDetail = () => {
   );
 
   if (isLoading || isFetching) {
-    return (
-      <section
-        className="news-details-skeleton"
-        aria-label="Loading article"
-        aria-busy="true"
-        aria-live="polite"
-      >
-        <div className="skeleton-title skeleton"></div>
-        <div className="skeleton-image skeleton"></div>
-        <div className="skeleton-paragraph skeleton"></div>
-      </section>
-    );
+    return <NewsDetailsSkeleton />;
   }
 
   if (isError || error) {
