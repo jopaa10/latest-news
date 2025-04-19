@@ -5,9 +5,7 @@ import { slugify } from "../../utils/createSlug";
 import { NewsArticle } from "../../types/newsTypes";
 
 const NewsDetail = () => {
-  const { slug, category } = useParams();
-
-  console.log(category);
+  const { slug } = useParams();
 
   const titleFromSlug = slug?.replace(/-/g, " ");
 

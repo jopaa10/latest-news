@@ -136,6 +136,7 @@
 
 .all-latest-news {
   @include flexCenter;
+  align-items: flex-start;
   flex-direction: column;
 
   width: 100%;
@@ -144,6 +145,11 @@
   .loading {
     text-align: center;
     margin: 1rem;
+    align-self: center;
+  }
+
+  @include respond(sm-phone) {
+    align-items: center;
   }
 }
 

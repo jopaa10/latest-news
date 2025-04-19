@@ -64,11 +64,7 @@ const LatestNews = () => {
       <Title text="All Latest News" />
       {isError && <p>Error loading news.</p>}
 
-      <NewsList
-        articles={allArticles}
-        isLoading={isLoading}
-        isFetching={isFetchingNextPage}
-      />
+      <NewsList articles={allArticles} isLoading={isLoading} />
       {isFetchingNextPage && (
         <p className="loading" role="status" aria-live="polite">
           Loading more...
