@@ -1,4 +1,4 @@
-import { InputFieldProps } from "../../types/LoginTypes";
+import { InputFieldProps } from "../../types/loginTypes";
 
 const InputField = ({
   id,
