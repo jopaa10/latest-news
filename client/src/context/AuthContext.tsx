@@ -58,6 +58,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }, 1000);
   };
 
+  const logoutWithCountdown = (message: string) => {
+    setToastMessage(message);
+    setToastType("logout");
+    setShowToast(true);
+    setLogoutCountdown(COUNTDOWN_DURATION);
+
+    let countdown = COUNTDOWN_DURATION;
+    const interval = setInterval(() => {
+      countdown -= 1;
+      setLogoutCountdown(countdown);
+
+      if (countdown <= 0) {
+        clearInterval(interval);
+        handleLogout();
+      }
+    }, 1000);
+  };
+
   const fetchUserData = (token: string) => {
     fetchCurrentUser(token)
       .then((data) => {
@@ -105,14 +123,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       return;
     }
 
+    const tokenCheckInterval = setInterval(() => {
+      if (isTokenExpired(token)) {
+        logoutWithCountdown("Session expired. Logging out...");
+      }
+    }, 15000);
+
     if (isTokenExpired(token)) {
-      console.warn("Token expired. Logging out...");
-      setToastMessage("Session expired. Logging out...");
-      setToastType("logout");
-      setShowToast(true);
-      setTimeout(() => {
-        handleLogout();
-      }, 4000);
+      logoutWithCountdown("Session expired. Logging out...");
       return;
     }
 
@@ -134,12 +152,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       idleTimeout = setTimeout(() => {
         if (token && isTokenExpired(token)) {
-          setToastMessage("Session expired. Logging out...");
-          setToastType("logout");
-          setShowToast(true);
-          setTimeout(() => {
-            handleLogout();
-          }, 4000);
+          logoutWithCountdown("Session expired. Logging out...");
         } else {
           setToastMessage("No activity. Logging out soon...");
           setToastType("idle");
@@ -167,6 +180,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return () => {
       events.forEach((e) => window.removeEventListener(e, resetTimers));
       clearTimeout(idleTimeout);
+      clearInterval(tokenCheckInterval);
       clearInterval(countdownInterval);
     };
   }, [token]);
