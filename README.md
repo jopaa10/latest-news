@@ -180,6 +180,34 @@ Add your API key to the \`.env\` file in the client directory:
 VITE_NYT_API_KEY=your_api_key_here
 ```
 
+### Why I Chose New York Times API Instead of News API
+
+For my fullstack application (frontend built with React, backend with Node.js/Express), I decided to use the **New York Times API** instead of the **News API**, primarily for the following reasons:
+
+---
+
+#### 1. Limitations of the Free News API Plan
+
+The free version of News API **does not allow usage in production** – it explicitly forbids displaying content to end users through publicly available applications. This was the main reason I couldn't use it during deployment.
+
+---
+
+#### 2. Deployment and Hosting
+
+Since I planned to deploy the app online (e.g., using Vercel for the frontend and Render for the backend), it was essential to use an API that allows access in a **public environment**. The NYT API does **not restrict this kind of use** in its free tier, which made it more suitable for deployment and demo purposes.
+
+---
+
+#### 3. More Stable Free Usage Limits
+
+The New York Times API offers **clear and stable limits** for the number of daily requests, which were sufficient for my development and testing needs. In contrast, News API has **stricter limitations**, and advanced features or production access require a paid plan.
+
+---
+
+#### 4. Legal Safety
+
+By using the NYT API, I avoided potential issues with **licensing and terms of use violations**. This allowed me to deploy the app confidently, without having to hide the API or create workaround solutions.
+
 ---
 
 ## 📋 Future Improvements
