@@ -83,7 +83,7 @@ Instead of a traditional loading spinner, I introduced a news skeleton loader. T
 ## 📁 Project Structure
 
 ```bash
-latest-news-app/
+latest-news/
 ├── client/ # React frontend
 ├── server/ # Node + Express backend
 ```
@@ -95,7 +95,7 @@ latest-news-app/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/jopaa10/latest-new
+git clone https://github.com/jopaa10/latest-news.git
 cd latest-news
 ```
 
