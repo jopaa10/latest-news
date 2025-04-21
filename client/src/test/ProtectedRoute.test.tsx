@@ -1,5 +1,5 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import { BrowserRouter } from "react-router-dom"; // We need BrowserRouter for navigation-related tests
+import { BrowserRouter } from "react-router-dom";
 import { jest } from "@jest/globals";
 import ProtectedRoute from "../components/ProtectedRoute";
 import { useAuth } from "../hooks/useAuth";

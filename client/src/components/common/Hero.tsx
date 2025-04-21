@@ -15,9 +15,9 @@ const Hero = () => {
 
   return (
     <>
-      <div className="hero-wrapper">
-        <div className="hero">
-          <div className="hero__text">
+      <div className="hero-wrapper" aria-labelledby="hero-heading">
+        <div className="hero" aria-label="Homepage promotion section">
+          <div className="hero__text" id="hero-heading">
             <h1 className="title-medium">Make MyNews your homepage</h1>
             <p className="title-medium">
               Every day discover what’s trending on the internet!
@@ -36,12 +36,7 @@ const Hero = () => {
               No, thanks
             </Button>
 
-            <Button
-              ariaLabel="Get"
-              backgroundColor="#fff"
-              textColor="#000"
-              type="button"
-            >
+            <Button ariaLabel="Get" textColor="#000" type="button">
               Get
             </Button>
             {isLoggedIn ? (

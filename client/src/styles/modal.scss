@@ -136,6 +136,11 @@
         background-color: color.adjust($bg-primary, $lightness: -10%);
         transform: scale(1.05);
       }
+
+      &:focus,
+      &:focus-visible {
+        transition: none;
+      }
     }
 
     .switch-mode {

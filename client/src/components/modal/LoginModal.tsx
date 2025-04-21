@@ -30,6 +30,8 @@ const Modal = ({ closeModal }: ModalProps) => {
 
   const { setToken, markAsRegistered } = useAuth();
 
+  const introRef = useRef<HTMLParagraphElement>(null);
+
   const handleClickOutside = (e: MouseEvent) => {
     if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
       closeModal();
@@ -127,26 +129,41 @@ const Modal = ({ closeModal }: ModalProps) => {
   };
 
   useEffect(() => {
+    if (introRef.current) {
+      introRef.current.focus();
+    }
+
     document.addEventListener("mousedown", handleClickOutside);
     document.addEventListener("keydown", handleKeydown);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("keydown", handleKeydown);
     };
-  }, []);
+  }, [isRegister]);
 
   return (
     <div
       className="modal"
       role="dialog"
       aria-labelledby="modalTitle"
-      aria-hidden="false"
+      aria-describedby="modalDesc"
       aria-modal="true"
     >
       <form ref={modalRef} className="modal__form" onSubmit={handleSubmit}>
         <ModalWave />
-        <h2>{isRegister ? "Sign Up" : "Login"}</h2>
-        <p>
+        <h2 id="modalDesc">{isRegister ? "Sign Up" : "Login"}</h2>
+        <p aria-hidden="true">
+          {isRegister
+            ? "Create an account to save your favorite articles"
+            : "Login and save favorite articles"}
+        </p>
+
+        <p
+          ref={introRef}
+          tabIndex={-1}
+          className="visually-hidden"
+          aria-live="polite"
+        >
           {isRegister
             ? "Create an account to save your favorite articles"
             : "Login and save favorite articles"}

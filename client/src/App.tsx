@@ -8,6 +8,7 @@ import VerifyEmail from "./components/VerifyEmail";
 import FavoritesPage from "./pages/FavoritesPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import SearchResults from "./components/search/SearchResults";
+import NotFoundPage from "./components/NotFound";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             element={<ProtectedRoute element={<FavoritesPage />} />}
           />
           <Route path="/search" element={<SearchResults />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
     </Router>
